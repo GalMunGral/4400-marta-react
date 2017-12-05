@@ -1,2 +1,2 @@
-# cs-4400
-MARTA project for CS 4400
+# MARTA Passenger Traffic
+Group project for CS4400 at Georgia Tech
