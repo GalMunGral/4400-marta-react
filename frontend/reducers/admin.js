@@ -5,8 +5,8 @@ import stations from './admin/stations';
 import flowReport from './admin/flowReport';
 
 export default combineReducers({
-    stations,
-    suspendedCards,
-    breezeCards,
-    flowReport
+  stations,
+  suspendedCards,
+  breezeCards,
+  flowReport
 });

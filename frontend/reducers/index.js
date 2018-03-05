@@ -6,9 +6,9 @@ import stations from './stations';
 import error from './error';
 
 export default combineReducers({
-    currentUser,
-    stations,
-    admin,
-    passenger,
-    error
+  currentUser,
+  stations,
+  admin,
+  passenger,
+  error
 });
