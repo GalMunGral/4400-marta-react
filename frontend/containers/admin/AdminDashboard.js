@@ -1,76 +1,66 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Panel, Button, PageHeader, Alert } from 'react-bootstrap';
-import SlimCol from '../../components/SlimCol';
 import { closeErrorMessage } from '../../actions/error';
 import { logout } from '../../actions/auth';
-import ErrorMessage from '../ErrorMessage';
+import Dashboard from '../../components/Dashboard';
 
 class AdminDashboard extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        const history = this.props.history;
-        return (
-            <SlimCol>
-                <ErrorMessage/>
-                <PageHeader>Administrator</PageHeader>
-                <Panel>
-                    <Button block onClick={() => {
-                        history.push('/stations');
-                    }}>
-                        Station Management
-                    </Button>
-                    <Button block onClick={() => {
-                        history.push('/suspended-cards');
-                    }}>
-                        Suspended Cards
-                    </Button>
-                    <Button block onClick={() => {
-                        history.push('/breeze-cards');
-                    }}>
-                        Breeze Card Management
-                    </Button>
-                    <Button block onClick={() => {
-                        history.push('/passenger-flow');
-                    }}>
-                        Passenger Flow Report
-                    </Button>
-                    <Button bsStyle="primary" block onClick={() => {
-                        this.props.logout();
-                        history.push('/login');
-                    }}>
-                        Logout
-                    </Button>
-                </Panel>
-            </SlimCol>
-        );
-    }
+  constructor(props) {
+    super(props);
+    this.options = [{
+      title: 'Station Management',
+      route: '/stations',
+    }, {
+      title: 'Suspended Cards',
+      route: '/suspended-cards'
+    }, {
+      title: 'Breeze Card Management',
+      route: '/breeze-cards'
+    }, {
+      title: 'Passenger Flow Report',
+      route: '/passenger-flow'
+    }].map(option => ({
+      ...option,
+      callback: () => {
+        props.history.push(option.route);
+      }
+    }));        
+  }
+
+  render() {
+    return (
+      <Dashboard
+        header="Administrator"
+        options={this.options}
+        exitCallback={() => {
+          this.props.logout();
+          this.props.history.push('/login');
+        }}
+        error={this.props.error}
+      />
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        error: state.error
-    };
-};
+const mapStateToProps = state => ({
+  error: state.error,
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        logout,
-        closeErrorMessage
-    }, dispatch);
-};
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    logout,
+  }, dispatch)
+);
+
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(AdminDashboard);
 
 AdminDashboard.propTypes = {
-    history: PropTypes.object.isRequired,
-    logout: PropTypes.func.isRequired,
-    error: PropTypes.object.isRequired,
-    closeErrorMessage: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired,
 };

@@ -4,11 +4,13 @@ const mysql = require('mysql2');
 
 const router = express.Router();
 const connection = mysql.createConnection({
-    host: 'academic-mysql.cc.gatech.edu',
-    user: 'cs4400_Group_26',
-    password: 'W3anEEq_',
-    database: 'cs4400_Group_26',
-    timezone: 'utc',
+    // host: 'academic-mysql.cc.gatech.edu',
+    // user: 'cs4400_Group_26',
+    // password: 'W3anEEq_',
+    // database: 'cs4400_Group_26',
+    user: 'root',
+    database: 'test',
+    // timezone: 'utc',
     dateStrings: true
 });
 
