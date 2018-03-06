@@ -49,7 +49,6 @@ export default function cards(state = {}, action) {
       return { ...state, isFresh: false };
     }
 
-
     case 'REQUEST_NEW_CARD':
     case 'REQUEST_MY_VALUE_UPDATE':
  
