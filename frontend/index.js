@@ -8,6 +8,6 @@ import './assets/stylesheets/base.scss';
 const store = configureStore();
 
 render(
-    <Root store={store} history={history} />,
-    document.getElementById('root')
+  <Root store={store} history={history} />,
+  document.getElementById('root')
 );

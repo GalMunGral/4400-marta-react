@@ -9,7 +9,7 @@ import {
   sortHistoryEntries,
   updateHistoryFilter
 } from '../../actions/passenger/tripHistory';
-import { checkDateFormat } from '../../utilities/dateLint';
+import { checkDateFormat } from '../../utilities/validator';
 import ErrorMessage from '../ErrorMessage';
 import FatCol from '../../components/FatCol';
 import TableTemplate from '../../components/TableTemplate';
