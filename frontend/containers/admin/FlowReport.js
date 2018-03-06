@@ -9,7 +9,7 @@ import {
   updateReportFilter
 } from '../../actions/admin/flowReports';
 import { closeErrorMessage, showErrorMessage } from '../../actions/error';
-import { checkDateFormat } from '../../utilities/dateLint';
+import { checkDateFormat } from '../../utilities/validator';
 import FatCol from '../../components/FatCol';
 import ErrorMessage from '../ErrorMessage';
 import TableTemplate from '../../components/TableTemplate';
