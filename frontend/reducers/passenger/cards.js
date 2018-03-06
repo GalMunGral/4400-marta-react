@@ -1,15 +1,12 @@
 export default function cards(state = {}, action) {
   switch(action.type) {
-    
-    case 'REQUEST_NEW_CARD': return state;
-    case 'REQUEST_MY_VALUE_UPDATE': return state;
-
     case 'REQUEST_MY_CARD_DATA': {
       return { ...state, isLoading: true };
     }
         
     case 'RECEIVE_MY_CARD_DATA': {
       return {
+        ...state,
         isLoading: false,
         isFresh: true,
         selected: 0,
@@ -51,7 +48,11 @@ export default function cards(state = {}, action) {
     case "CARD_REMOVED": {
       return { ...state, isFresh: false };
     }
-        
+
+
+    case 'REQUEST_NEW_CARD':
+    case 'REQUEST_MY_VALUE_UPDATE':
+ 
     default: return state;
   }
 }

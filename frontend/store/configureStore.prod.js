@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
-const initialState = {
+const state = {
   currentUser: {
     username: '',
     isLoggedIn: false,
@@ -105,7 +105,7 @@ const initialState = {
 export function configureStore(initialState) {
   return createStore(
     rootReducer,
-    initialState,  
+    state,  
     applyMiddleware(thunk)
   );
 }
