@@ -1,14 +1,19 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'user',
+  'conflict',
   {
     username: {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    password: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN
+    breezecardNum: {
+      type: DataTypes.CHAR,
+      primaryKey: true,
+    },
+    dateTime: {
+      type: DataTypes.TIME
+    }
   }, {
     timestamps: false,
-    freezeTableName: true,
+    freezeTableName: true
   }
 );

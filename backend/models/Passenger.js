@@ -1,12 +1,13 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'user',
+  'passenger',
   {
     username: {
       type: DataTypes.STRING,
       primaryKey: true
     },
-    password: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN
+    email: {
+      type: DataTypes.STRING,
+    }
   }, {
     timestamps: false,
     freezeTableName: true,
