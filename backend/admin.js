@@ -4,11 +4,9 @@ const md5 = require('md5');
 
 const router = express.Router();
 const connection = mysql.createConnection({
-    host: 'academic-mysql.cc.gatech.edu',
-    user: 'cs4400_Group_26',
-    password: 'W3anEEq_',
-    database: 'cs4400_Group_26',
-    timezone: 'utc',
+    host: 'localhost',
+    user: 'root',
+    database: 'marta',
     dateStrings: true
 });
 
