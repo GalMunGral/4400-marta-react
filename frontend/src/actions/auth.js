@@ -44,7 +44,8 @@ export function login(credentials) {
           dispatch(showErrorMessage('Incorrrect credentials! Time: ' + new Date(), 1));
           dispatch(accessDenied());
         }
-      });
+      })
+      .catch(err => console.log(err));
   };
 }
 

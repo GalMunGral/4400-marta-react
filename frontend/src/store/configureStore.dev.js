@@ -109,7 +109,7 @@ export function configureStore(initialState) {
     state,
     compose(
       applyMiddleware(thunk),
-      DevTools.instrument()
+      // DevTools.instrument()
     )
   );
 }

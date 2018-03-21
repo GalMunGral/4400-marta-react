@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     // password: 'W3anEEq_',
     // database: 'cs4400_Group_26',
     user: 'root',
-    database: 'test',
+    database: 'marta',
     // timezone: 'utc',
     dateStrings: true
 });
