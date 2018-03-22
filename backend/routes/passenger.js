@@ -1,9 +1,6 @@
-const express = require('express');
+const { Breezecard,Trip, Station, Passenger  } = require('../models');
+const _ = require('lodash');
 const md5 = require('md5');
-const router = express.Router();
-
-const Sequelize = require('sequelize');
-const User = sequelize.import('./models/User');
 
 router.route('/my-cards')
 .get((req, res) => {
@@ -11,10 +8,6 @@ router.route('/my-cards')
         `SELECT BreezecardNum, Value FROM Breezecard
          WHERE BelongsTo = "${req.query.user}"
          ORDER BY ${req.query.attr} ${req.query.asc === "true" ? "ASC" : "DESC"}`,
-        (err, results) => {
-            res.send({
-                results
-            });
         }
     );
 });
