@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'conflict',
-  {
+  'conflict', {
     username: {
       type: DataTypes.STRING,
       primaryKey: true

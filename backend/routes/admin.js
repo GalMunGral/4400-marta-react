@@ -1,45 +1,14 @@
-const express = require('express');
-const mysql = require('mysql2');
 const md5 = require('md5');
 
-const router = express.Router();
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'marta',
-    dateStrings: true
-});
+Breezecard.findAll().then((users) => {
+    console.log(users.map(d => d.dataValues));
+  });
+
+
+
 
 router.route('/breeze-cards')
-.get((req, res) => {
-    const array = [];
-    if (req.query.owner !== "null") {
-        array.push("BelongsTo = '" + req.query.owner + "'");
-    }
-    if (req.query.cardNumber !== "null") {
-        array.push("BreezecardNum = '" + req.query.cardNumber + "'");
-    }
-    if (req.query.minValue !== "null") {
-        array.push("Value >= " + req.query.minValue);
-    }
-    if (req.query.maxValue !== "null") {
-        array.push("Value <= " + req.query.maxValue);
-    }
-    if (req.query.showSuspended === "false") {
-        array.push("DateTime IS NULL");
-    }
-    const condition = array.join(" AND ");
-    connection.query(
-        `SELECT b.BreezecardNum, b.Value, b.BelongsTo
-        FROM Breezecard AS b NATURAL LEFT OUTER JOIN Conflict${condition.length !== 0 ? "\nWHERE " + condition + "\n" : ""}
-        ORDER BY ${req.query.attr} ${req.query.asc === "true" ? "ASC" : "DESC"}`,
-        (err, results) => {
-            res.send({
-                results,
-                err: results.length ? "" : "NOT FOUND! errorID: " + md5(condition)
-            });
-        });
-});
+.get();
 
 router.route('/suspended-cards')
 .get((req, res) => {

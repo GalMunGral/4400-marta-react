@@ -1,12 +1,11 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'bus_station_intersection',
-  {
+  'bus_station_intersection', {
     stopId: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       primaryKey: true
     },
     intersection: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     }
   }, {
     timestamps: false,

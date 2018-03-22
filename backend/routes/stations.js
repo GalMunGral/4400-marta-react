@@ -9,6 +9,9 @@ const connection = mysql.createConnection({
     dateStrings: true
 });
 
+const Sequelize = require('sequelize');
+const User = sequelize.import('./models/User');
+
 router.route('/')
 .get((req, res) => {
     connection.query(

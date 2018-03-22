@@ -1,13 +1,9 @@
 const express = require('express');
-const mysql = require('mysql2');
 const md5 = require('md5');
 const router = express.Router();
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'marta',
-    dateStrings: true
-});
+
+const Sequelize = require('sequelize');
+const User = sequelize.import('./models/User');
 
 router.route('/my-cards')
 .get((req, res) => {

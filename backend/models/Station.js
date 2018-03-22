@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'station',
-  {
+  'station', {
     stopId: {
       type: DataTypes.CHAR,
       primaryKey: true

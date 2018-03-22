@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'trip',
-  {
+  'trip', {
     tripFare: {
       type: DataTypes.DECIMAL,
     },

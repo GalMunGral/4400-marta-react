@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => sequelize.define(
-  'breezecard',
-  {
+  'breezecard', {
     breezecardNum: {
       type: DataTypes.CHAR,
       primaryKey: true,
