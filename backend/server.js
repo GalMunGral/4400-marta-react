@@ -27,11 +27,13 @@ const {
 } = require('./models');
 
 
-User.findAll({
-  include: [Passenger]
-})
-  .then(results => results.map(v => v.dataValues))
-  .then(val => console.log(val.length))
+Passenger.findAll({ include: [Conflict] })
+  .then(vals => vals.map(d => d.dataValues))
+  .then(vals => vals.map(d => ({
+    ...d,
+    conflicts: d.conflicts.map(d => d.dataValues)
+  })))
+  .then(result => console.log(result.map(d => d.conflicts)))
 
 app.listen(3000, () => {
   console.log('Listening on port 3000!')
