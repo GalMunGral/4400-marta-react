@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 // app.use('/assets', express.static(path.join(__dirname, 'frontend/assets')));
 // app.use('/api', api);
 
-app.get('/test', require('./routes/stations').get);
+app.get('/test', require('./routes/breezecards').get);
 
 app.listen(3000, () => {
   console.log('Listening on port 3000!')

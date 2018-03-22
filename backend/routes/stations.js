@@ -1,8 +1,10 @@
+const express = require('express');
 const { Station, BusStationIntersection } = require('../models');
-const _ = require('lodash');
 const { parseRawData } = require('../utilities');
 
-module.exports.get = (req, res) => {
+const router = express.Router();
+
+router.get('/', (req, res) => {
   const { attr, dir } = req.query;
   Station.findAll({
     attributes: [
@@ -19,6 +21,7 @@ module.exports.get = (req, res) => {
     raw: true
   })
   .then(vals => parseRawData(vals))
-  .then(vals => _.orderBy(vals, attr, dir))
   .then(vals => res.send(JSON.stringify(vals)))
-};
+});
+
+module.exports = router;
