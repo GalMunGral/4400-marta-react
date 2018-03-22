@@ -1,111 +1,84 @@
-const md5 = require('md5');
 const express = require('express');
-const mysql = require('mysql2');
+const Op = require('sequelize').Sequelize.Op;
+const md5 = require('md5');
+const { User, Passenger, Breezecard, Conflict } = require('../models');
+const { generateCardNumber } = require('../utilities');Z
 
-const router = express.Router();
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'marta',
-    dateStrings: true
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  password = md5(password);
+  const user = await User.findOne({
+    username: username,
+    password: password
+  });
+  
+  if (!user) {
+    res.send({ success: false })
+  };
+
+  userType: user.isAdmin ? "ADMIN" : "PASSENGER";
+  res.send({ success: true, userType });
 });
 
-const Sequelize = require('sequelize');
-const User = sequelize.import('./models/User');
+router.post('/register', async (req, res) => {
+  const {
+    username,
+    password,
+    email,
+    breezecardNum
+  } = req.body;
 
-router.route('/login')
-.post((req, res) => {
-    connection.query(
-        `SELECT * FROM User
-        WHERE Username = "${req.body.username}"
-        AND Password = "${md5(req.body.password)}"`,
-        (err, results) => {
-            if (results.length !== 0) {
-                const myResult = {
-                    success: true,
-                    userType: results[0].IsAdmin === 1 ? "ADMIN" : "PASSENGER"
-                };
-                res.send(myResult);
-            } else {
-                res.send({
-                    success: false
-                });
-            }
-        });
-});
+  // Create user
+  const user = await User.create({
+    username,
+    password,
+    isAdmin: 0
+  });
 
+  // Create passenger
+  await Passenger.create({ username, email });
 
-router.route('/register')
-.post((req, res) => {
-    const username = () => req.body.username;
-    const email = () => req.body.email;
-    connection.query(
-        `INSERT INTO User VALUES ("${req.body.username}", "${md5(req.body.password)}", 0)`,
-        (err, results, field) => {
-            connection.query(`INSERT INTO Passenger VALUES ("${username()}", "${email()}")`,
-                (e1) => {
-                    if (e1) {
-                        res.send({err: "Username already exists!"});
-                        return;
-                    }
-                    if (req.body.cardNo === null) {
-                        connection.query(
-                            `INSERT INTO Breezecard VALUES ("${Math.floor(Math.random() * Math.pow(10, 16))}", 0, "${username()}")`,
-                            (e2) => {
-                                if (e2) {
-                                    res.send({res: "System error! Please try again later"});
-                                }
-                                res.send({
-                                    success: true
-                                });
-                            });
-                    } else {
-                        connection.query(
-                            `SELECT * FROM Breezecard WHERE BreezecardNum = "${req.body.cardNo}"`,
-                            (e3, r3) => {
-                                if (r3.length === 0) {
-                                    connection.query(
-                                        `INSERT INTO Breezecard VALUES ("${req.body.cardNo}", 0, "${req.body.username}")`,
-                                        () => {
-                                            res.send({
-                                                success: true
-                                            });
-                                        });
-                                } else {
-                                    if (r3[0].BelongsTo === null) {
-                                        connection.query(
-                                            `UPDATE Breezecard
-                                            SET BelongsTo = "${req.body.username}"
-                                            WHERE BreezecardNum = "${req.body.cardNo}"`,
-                                        () => {
-                                            res.send({
-                                                success: true
-                                            });
-                                        });
-                                    } else {
-                                        if (r3[0].BelongsTo !== req.body.username) {
-                                            connection.query(
-                                                `INSERT INTO Conflict VALUES ("${req.body.username}", "${req.body.cardNo}", NOW())`,
-                                                (e6) => {
-                                                    connection.query(
-                                                        `INSERT INTO Breezecard VALUES ("${Math.floor(Math.random() * Math.pow(10, 16))}", 0, "${username()}")`,
-                                                        (e7) => {
-                                                            if (e7) {
-                                                                res.send({err: "System error! Please try again later."});
-                                                            }
-                                                            res.send({
-                                                                success: true,
-                                                                err: "Card suspended!"
-                                                            });
-                                                        });
-                                                });
-                                        }
-                                    }
-                                }
-                            });
-                    }
-                });
-        });
+  // If no card# is provided
+  if (!breezecardNum) {
+    breezecardNum = generateCardNumber();
+    await Breezecard.create({ breezecardNum, value: 0, username});
+  } else {
+
+    // Check if the card is already created
+    const card = await Breezecard.findOne({
+      where: { breezecardNum: breezecardNum }
+    });
+    if (!card) {
+      // It's a new card
+      await Breezecard.create({
+        breezecardNum,
+        value: 0,
+        username
+      });
+    } else if (!card.belongsTo) {
+      // The cad exists but is not owned by anyone
+      await Breezecard.update({ 
+        belongsTo: username
+      }, { 
+        breezecardNum 
+      });
+    } else if (card.belongsTo !== username) {
+      // The card is currently used by someone else
+      await Conflict.create({
+        username,
+        breezecardNum,
+        dateTime: sequelize.fn('NOW')
+      });
+      // Get a random card
+      const breezecardNum = generateCardNumber();
+      Breezecard.create({
+        breezecardNum,
+        value: 0,
+        username
+      });
+    }
+  }
+  res.send({ success: true });    
 });
 
 module.exports = router;

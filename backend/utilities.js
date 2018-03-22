@@ -11,6 +11,11 @@ const parseRawData = (vals, attr, dir)  => {
   return _.orderBy(unordered, attr, dir)
 }
 
+const generateCardNumber = () => (
+  Math.floor(Math.random() * Math.pow(10, 16))
+);
+
 module.exports = {
-  parseRawData
+  parseRawData,
+  generateCardNumber
 }
