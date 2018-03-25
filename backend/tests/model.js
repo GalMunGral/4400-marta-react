@@ -9,7 +9,7 @@ const {
   Station,
   Trip,
   User
-} = require('./models');
+} = require('../models');
 
 // passenger LEFT OUTER JOIN conflict
 Passenger.findAll({ include: [Conflict] })
@@ -18,7 +18,7 @@ Passenger.findAll({ include: [Conflict] })
     ...d,
     conflicts: d.conflicts.map(d => d.dataValues)
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // conflict LEFT OUTER JOIN passenger
 Conflict.findAll({ include: [Passenger] })
@@ -27,7 +27,7 @@ Conflict.findAll({ include: [Passenger] })
     ...d,
     passenger: d.passenger.dataValues
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // breezecard LEFT OUTER JOIN conflict
 Breezecard.findAll({ include: [Conflict] })
@@ -36,7 +36,7 @@ Breezecard.findAll({ include: [Conflict] })
     ...d,
     conflicts: d.conflicts.map(d => d.dataValues)
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // conflict LEFT OUTER JOIN breezecard
 Conflict.findAll({ include: [Breezecard] })
@@ -45,7 +45,7 @@ Conflict.findAll({ include: [Breezecard] })
     ...d,
     breezecard: d.breezecard.dataValues
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // station LEFT OUTER JOIN bus_station_intersection
 Station.findAll({ include: [BusStationIntersection] })
@@ -55,7 +55,7 @@ Station.findAll({ include: [BusStationIntersection] })
     bus_station_intersection: d.bus_station_intersection ? 
       d.bus_station_intersection.dataValues : null
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // bus_station_intersection LEFT OUTER JOIN station
 BusStationIntersection.findAll({ include: [Station] })
@@ -64,16 +64,16 @@ BusStationIntersection.findAll({ include: [Station] })
     ...d,
     station: d.station ? d.station.dataValues : null
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
-// // breezecard LEFT OUTER JOIN trip
-// Breezecard.findAll({ include: [Trip] })
-//   .then(vals => vals.map(d => d.dataValues))
-//   .then(vals => vals.map(d => ({
-//     ...d,
-//     trips: d.trips.map(d => d.dataValues)
-//   })))
-//   .then(result => console.log(result));
+// breezecard LEFT OUTER JOIN trip
+Breezecard.findAll({ include: [Trip] })
+  .then(vals => vals.map(d => d.dataValues))
+  .then(vals => vals.map(d => ({
+    ...d,
+    trips: d.trips.map(d => d.dataValues)
+  })))
+  .then(result => console.log(result.length > 0));
 
 // breezecard LEFT OUTER JOIN trip
 Station.findAll({ include: [
@@ -84,7 +84,7 @@ Station.findAll({ include: [
     ...d,
     // trips: d.trips.map(d => d.dataValues)
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // breezecard LEFT OUTER JOIN trip
 Station.findAll({ include: [
@@ -95,7 +95,7 @@ Station.findAll({ include: [
     ...d,
     // trips: d.trips.map(d => d.dataValues)
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // breezecard LEFT OUTER JOIN trip
 Trip.findAll({ include: [
@@ -106,7 +106,7 @@ Trip.findAll({ include: [
     ...d,
     // trips: d.trips.map(d => d.dataValues)
   })))
-  .then(result => console.log(result.length));
+  .then(result => console.log(result.length > 0));
 
 // breezecard LEFT OUTER JOIN trip
 Trip.findAll({
@@ -114,7 +114,7 @@ Trip.findAll({
     model: Station,
     as: 'EndStations'
   }]
-}).then(result => console.log(result.length));
+}).then(result => console.log(result.length > 0));
 
   app.listen(3000, () => {
   console.log('Listening on port 3000!')
