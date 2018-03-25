@@ -2,41 +2,80 @@ const express = require('express');
 const Op = require('sequelize').Sequelize.Op;
 const md5 = require('md5');
 const { User, Passenger, Breezecard, Conflict } = require('../models');
-const { generateCardNumber } = require('../utilities');Z
+const { generateCardNumber } = require('../utilities');
+
+router = express.Router();
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
   password = md5(password);
-  const user = await User.findOne({
-    username: username,
-    password: password
-  });
-  
-  if (!user) {
-    res.send({ success: false })
-  };
+  let user;
+  console.log(username, password)
+  try {
+    user = await User.findOne({
+      where: { username, password }
+    });
+  } catch(error) {
+    return res.send({ success: false, error });
+  }
 
-  userType: user.isAdmin ? "ADMIN" : "PASSENGER";
-  res.send({ success: true, userType });
+  if (!user) {
+    return res.send({
+      success: false,
+      error: 'Incorrect credentials'
+    });
+  }
+
+  const userType =  user.isAdmin ? "ADMIN" : "PASSENGER";
+  return res.send({ success: true, userType });
 });
 
 router.post('/register', async (req, res) => {
-  const {
+  let {
     username,
     password,
     email,
     breezecardNum
   } = req.body;
-
-  // Create user
-  const user = await User.create({
-    username,
-    password,
-    isAdmin: 0
-  });
-
+  password = md5(password);
+  
+  if (!username) {
+    return res.send({ success: false, error: 'Username missing' })
+  }
+  if (!password) {
+    return res.send({ success: false, error: 'Password missing'})
+  }
+  if (!email) {
+    return res.send({ success: false, error: 'Email missing' })
+  }
+ 
+  // Create user account
+  try {
+    // Check if the account already exists
+    const user = await User.findOne({
+      where: { username, password }
+    });
+    if (!user) {
+        user = await User.create({
+        username,
+        password,
+        isAdmin: 0
+      });
+    }
+  } catch(error) {
+    return res.send({ success: false, error });
+  }
+  
   // Create passenger
-  await Passenger.create({ username, email });
+  try {
+    const passenger = await Passenger.findOne({
+      where: { username, email}
+    });
+    if (passenger) throw 'Account already exists';
+    await Passenger.create({ username, email });
+  } catch(error) {
+    return res.send({ success: false, error });
+  }
 
   // If no card# is provided
   if (!breezecardNum) {
@@ -78,7 +117,12 @@ router.post('/register', async (req, res) => {
       });
     }
   }
-  res.send({ success: true });    
+  res.send({
+    success: true,
+    username,
+    password,
+    email
+  });
 });
 
 module.exports = router;
