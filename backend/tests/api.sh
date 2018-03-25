@@ -12,10 +12,9 @@ delete() {
     -d $2 $1 | python -m json.tool
   fi
 }
- 
 
 # post $root/login '{"username":"admin","password":"admin123"}'
-# post $root/register '{"username":"wenqi","password":"pass","email":"wenqi@gmail.cm"}'
+# post $root/register '{"username":"wenqi2","password":"pass2","email":"wenqi@gmail.cm2"}'
 # post $root/login '{"username":"wenqi","password":"pass"}'
 # get $root/cards
 # get $root/cards/conflicts

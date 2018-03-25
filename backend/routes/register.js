@@ -1,36 +1,10 @@
-const express = require('express');
-const Op = require('sequelize').Sequelize.Op;
 const md5 = require('md5');
 const { User, Passenger, Breezecard, Conflict } = require('../models');
 const { generateCardNumber } = require('../utilities');
 
-router = express.Router();
+router = require('express').Router();
 
-router.post('/login', async (req, res) => {
-  let { username, password } = req.body;
-  password = md5(password);
-  let user;
-  console.log(username, password)
-  try {
-    user = await User.findOne({
-      where: { username, password }
-    });
-  } catch(error) {
-    return res.send({ success: false, error });
-  }
-
-  if (!user) {
-    return res.send({
-      success: false,
-      error: 'Incorrect credentials'
-    });
-  }
-
-  const userType =  user.isAdmin ? "ADMIN" : "PASSENGER";
-  return res.send({ success: true, userType });
-});
-
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
   let {
     username,
     password,
@@ -52,7 +26,7 @@ router.post('/register', async (req, res) => {
   // Create user account
   try {
     // Check if the account already exists
-    const user = await User.findOne({
+    let user = await User.findOne({
       where: { username, password }
     });
     if (!user) {

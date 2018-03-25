@@ -3,7 +3,9 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
-app.use('/', require('./routes/auth'));
+
+app.use('/login', require('./routes/login'));
+app.use('/register', require('./routes/register'));
 app.use('/cards', require('./routes/cards'));
 app.use('/stations', require('./routes/stations'));
 
