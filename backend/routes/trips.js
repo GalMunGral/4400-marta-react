@@ -1,48 +1,75 @@
-const express = require('express');
-const { Station, Passenger, Breezecard } = require('./models');
+const { Station, Passenger, Breezecard } = require('../models');
+const { parseRawData } = require('../utilities')
+const router = require('express').Router();
 
-const router = express.Router();
+router.get('/', async (req, res) => {
+  const { startTime, endTime, username, attr, dir } = req.query;
+  try{
+    let trips = await Trip.findAll({
+      attributes: ['startTime', 'tripFare', 'breezecardNum'],
+      where: {
+        startTime: {
+          [Op.gte]: startTime,
+          [Op.lte]: endTime
+        }      
+      },
+      include: [{
+        model: Station,
+        as: 'StartStations',
+        attributes: [['name', 'startStation']]
+      }, {
+        model: Station,
+        as: 'EndStations',
+        attributes: [['name', 'endStation']]
+      }, {
+        model: Breezecard,
+        include: [{
+          model: Passenger,
+          where: { username }
+        }]
+      }],
+      raw: true
+    });
+  } catch(error) {
+    return res.send(error)
+  }
+  trips = parseRawData(trips, attr, dir);
+  res.send(JSON.stringify(trips))
+});
 
-// router.route('/')
-//   .get((req, res) => {
-//     Trip.findAll({
-//       attributes: ['startTime']
-//     })
-//     connection.query(
-//         `SELECT T.StartTime AS Time, SS.Name AS SName, DS.Name AS DName, T.Tripfare AS Fare, T.BreezecardNum AS BNumber
-//         FROM Trip AS T, Station AS SS, Station AS DS, Passenger AS P, Breezecard AS B
-//         WHERE T.StartsAt = SS.StopID
-//         AND T.EndsAt = DS.StopID
-//         AND T.BreezecardNum = B.BreezecardNum
-//         AND B.BelongsTo = P.Username
-//         AND P.Username = "${req.query.username}" ${req.query.start !== "" ? "AND T.StartTime >= '" + req.query.start + "'" : ""} ${req.query.end !== "" ? "AND T.StartTime <= '" + req.query.end + "'" : ""}
-//         ORDER BY Time ${req.query.asc === "true" ? "ASC" : "DESC"}`,
-//         (err, results) => {
-//             res.send({
-//                 results,
-//                 err: results.length ? '' : "NOT FOUND! queryID:" + md5(JSON.stringify(req.query))
-//             });
-//         });
-//   })
 
-//   .post((req, res) => {
-//       connection.query(
-//           `SELECT * FROM Breezecard WHERE BreezecardNum = ${req.body.breezecardNum}`,
-//           (err, results, field) => {
-//               if (results[0].Value - req.body.currentFare >= 0) {
-//                   connection.query(
-//                       `INSERT INTO Trip VALUES (${req.body.currentFare}, "${req.body.startTime}", "${req.body.breezecardNum}", "${req.body.startID}", "${req.body.endID}")`,
-//                       (err) => {
-//                           connection.query(
-//                               `UPDATE Breezecard
-//                               SET VALUE = VALUE - ${req.body.currentFare}
-//                               WHERE BreezecardNum = ${req.body.breezecardNum}`,
-//                               () => {
-//                                   res.send({});
-//                               });
-//                       });
-//               } else {
-//                   res.send({err: "Insufficient fund!"});
-//               }
-//           });
-//   });
+router.post('/', async (req, res) => {
+  const body = Object.values(req.body)
+  if (body.includes(null) || body.includes(undefined)) {
+    return res.send({ success: false, error: 'Missing fields'});
+  }
+  const {
+    breezecardNum,
+    tripFare,
+    startTime,
+    startsAt,
+    endsAt
+  } = req.body;
+  try {
+    const card = await Breezecard.findOne({
+      where: { breezecardNum }
+    });
+    if (card.value < tripFare) {
+      throw 'Insufficient fund';
+    }
+    await Trip.create({
+      tripFare,
+      startTime,
+      breezecardNum,
+      startsAt,
+      endsAt
+    });
+    await Breezecard.decrement('value', {
+      by: tripFare,
+      where: { breezecardNum }
+    })
+    res.send({ success: true })
+  } catch(error) {
+    return res.send(error)
+  }
+});

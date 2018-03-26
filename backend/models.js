@@ -50,5 +50,7 @@ module.exports = {
   Passenger,
   Station,
   Trip,
-  User
+  User,
+
+  sequelize
 }

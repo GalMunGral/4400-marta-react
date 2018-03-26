@@ -24,49 +24,61 @@ router.get('/', async (req, res) => {
   res.send(JSON.stringify(stations));
 });
 
+router.post('/', async (req, res) => {
+  const {
+    stopId,
+    name,
+    enterFare,
+    closedStatus,
+    isTrain,
+    intersection
+  } = req.body;
+  try {
+    const station = await Station.create({
+      stopId,
+      name,
+      enterFare,
+      closedStatus,
+      isTrain
+    });
+    if (!station.isTrain) {
+      await BusStationIntersection.create({
+        stopId,
+        intersection
+      })
+    }
+    res.send({ success: true })
+  } catch(error) {
+    res.send(error);
+  }
+});
+
+router.put('/:stopId', async (req, res) => {
+  const stopId = req.params.stopId;
+  const {
+    enterFare,
+    closedStatus,
+    isTrain,
+    intersection
+  } = req.body;
+  try {
+    await Station.update({
+      enterFare,
+      closedStatus
+    }, {
+      where: { stopId }
+    });
+    if (!isTrain) {
+      BusStationIntersection.update({
+        intersection
+      }, {
+        where: { stopId }
+      })
+    }
+    res.send({ success: true })
+  } catch(error) {
+    res.send(error);
+  }
+});
+
 module.exports = router;
-
-
-// router.route('/create-station')
-// .post((req, res) => {
-//     connection.query(
-//         `INSERT INTO Station VALUES 
-//         ("${req.body.stationId}",
-//         "${req.body.stationName}",
-//         ${req.body.fare},
-//         ${req.body.isOpen ? 0 : 1},
-//         ${req.body.isTrainStation ? 1 : 0})`,
-//         (err) => {
-//             if (!err && req.body.isBusStation) {
-//                 connection.query(
-//                     `INSERT INTO BusStationIntersection VALUES
-//                     ("${req.body.stationId}",
-//                     "${req.body.intersection}")`,
-//                     () => {
-//                         res.send({});
-//                     }
-//                 );
-//             } else if (!err) {
-//                 res.send({});
-//             }
-//         }
-//     );
-// });
-
-// router.route('/update-fare')
-// .post((req, res) => {
-//     connection.query(
-//         `UPDATE Station
-//         SET EnterFare = ${req.body.fare}, ClosedStatus = ${req.body.isOpen ? 0 : 1}
-//         WHERE StopID = "${req.body.id}"`,
-//         () => {
-//             res.send({});
-//         });
-//     if (req.body.isBusStation) {
-//         connection.query(
-//             `UPDATE BusStationIntersection
-//             SET Intersection = "${req.body.intersection}"
-//             WHERE StopID = "${req.body.id}"`
-//         );
-//     }
-// });
