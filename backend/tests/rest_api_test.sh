@@ -1,6 +1,7 @@
 root=localhost:3000
 
 get() {
+  echo $1
   curl -sS $1 | python -m json.tool
 }
 
@@ -75,5 +76,6 @@ put() {
 #   "isTrain":false,
 #   "intersection":"hahahaha"
 # }'
-
 # get $root/report
+# get "$root/report?minStartTime=2017-11-03%2009:44:11&maxStartTime=2017-12-31%2019:00:00"
+# get "$root/report?minStartTime=2017-12-30%2019:00:00&maxStartTime=2018-1-1%2019:00:00 "
