@@ -8,7 +8,10 @@ const parseRawData = (vals, attr, dir)  => {
   }).map(v => _.mapKeys(v, (o, k) => {
     return  k.includes('.') ? _.split(k, '.')[1] : k;
   }));
-  return _.orderBy(unordered, attr, dir)
+  if (attr && dir) {
+    return _.orderBy(unordered, attr, dir)
+  }
+  return unordered;
 }
 
 const generateCardNumber = () => (

@@ -7,8 +7,10 @@ app.use(bodyParser.json());
 app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
 app.use('/cards', require('./routes/cards'));
+app.use('/conflicts', require('./routes/conflicts'));
 app.use('/stations', require('./routes/stations'));
-
+app.use('/trips', require('./routes/trips'));
+app.use('/report', require('./routes/report'));
 app.listen(3000, () => {
   console.log('Listening on port 3000!')
 });

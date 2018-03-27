@@ -1,17 +1,26 @@
-const { Station, Passenger, Breezecard } = require('../models');
+const { Station, Passenger, Breezecard, Trip } = require('../models');
+const Op = require('sequelize').Sequelize.Op;
 const { parseRawData } = require('../utilities')
 const router = require('express').Router();
 
 router.get('/', async (req, res) => {
   const { startTime, endTime, username, attr, dir } = req.query;
+  let trips;
+
+  // Two conditions to combine later
+  const lowerBound = startTime ? {
+    [Op.gte]: startTime
+  } : {};
+  const upperBound = endTime ? {
+    [Op.lte]: endTime
+  } : {}
+  const timeCondition = (!startTime && !endTime)
+    ? { [Op.not]: null } : Object.assign({}, lowerBound, upperBound);
   try{
-    let trips = await Trip.findAll({
+    trips = await Trip.findAll({
       attributes: ['startTime', 'tripFare', 'breezecardNum'],
       where: {
-        startTime: {
-          [Op.gte]: startTime,
-          [Op.lte]: endTime
-        }      
+        startTime: timeCondition
       },
       include: [{
         model: Station,
@@ -25,12 +34,16 @@ router.get('/', async (req, res) => {
         model: Breezecard,
         include: [{
           model: Passenger,
-          where: { username }
-        }]
+          where: { 
+            username: username || { [Op.not]: null }
+          }
+        }],
+        required: true
       }],
       raw: true
     });
   } catch(error) {
+    console.log(error)
     return res.send(error)
   }
   trips = parseRawData(trips, attr, dir);
@@ -39,10 +52,6 @@ router.get('/', async (req, res) => {
 
 
 router.post('/', async (req, res) => {
-  const body = Object.values(req.body)
-  if (body.includes(null) || body.includes(undefined)) {
-    return res.send({ success: false, error: 'Missing fields'});
-  }
   const {
     breezecardNum,
     tripFare,
@@ -50,6 +59,9 @@ router.post('/', async (req, res) => {
     startsAt,
     endsAt
   } = req.body;
+  if (!(breezecardNum && tripFare && startTime && startsAt && endsAt)) {
+    return res.send({ success: false, error: 'Missing fields'});
+  }
   try {
     const card = await Breezecard.findOne({
       where: { breezecardNum }
@@ -73,3 +85,5 @@ router.post('/', async (req, res) => {
     return res.send(error)
   }
 });
+
+module.exports = router;

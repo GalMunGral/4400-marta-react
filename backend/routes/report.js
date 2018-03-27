@@ -1,5 +1,6 @@
-const { Station, Passenger, Breezecard, sequelize } = require('../models');
+const { Station, Trip } = require('../models');
 const { parseRawData } = require('../utilities')
+const Sequelize = require('sequelize');
 const router = require('express').Router();
 
 router.get('/', async (req, res) => {
@@ -8,27 +9,37 @@ router.get('/', async (req, res) => {
       attributes: [
         'name',
         [Sequelize.fn('COUNT', '*'), 'inflow'],
-        [Sequelize.literal('inflow - outflow'), 'flow'],
-        [Sequelize.fn('SUM', 'tripFare'), 'revenue'],
-        'startTime'
+        [Sequelize.fn('SUM', 'StartTrip.tripFare'), 'revenue'],
+        // [Sequelize.literal('COUNT(*) - EndTrip.outflow'), 'flow'],
       ],
-      inclue: [{
+      include: [{
         model: Trip,
-        as: 'StartTrip'
-      }, {
-        model: Station,
-        atributes: [[Sequelize.fn('COUNT', '*'), 'outflow']],
-        include: [{
-          model: Trip,
-          as: 'EndTrip'
-        }],
-        group: ['stopId']
-      }],
+        as: 'StartTrips',
+        attributes: [
+          'startTime'
+        ],
+        required: true,
+        includeIgnoreAttributes: false
+      },
+      //  {
+      //   model: Station,
+      //   as: 'EndStation',
+      //   attributes: [[Sequelize.fn('COUNT', '*'), 'outflow']],
+      //   include: [{
+      //     model: Trip,
+      //     as: 'EndTrip',
+      //     require: true
+      //   }],
+      //   group: ['stopId'],
+      //   required: true
+      // }
+    ],
       group: ['stopId']
     });
     reports = parseRawData(reports);
     res.send(JSON.stringify(reports))
   } catch(error) {
+    console.log(error)
     res.send(error)
   }
 });
