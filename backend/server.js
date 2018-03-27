@@ -11,6 +11,7 @@ app.use('/conflicts', require('./routes/conflicts'));
 app.use('/stations', require('./routes/stations'));
 app.use('/trips', require('./routes/trips'));
 app.use('/report', require('./routes/report'));
+
 app.listen(3000, () => {
   console.log('Listening on port 3000!')
 });

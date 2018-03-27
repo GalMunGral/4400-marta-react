@@ -33,12 +33,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/:breezecardNum', async (req, res) => {
+router.put('/:breezecardNum', async (req, res) => {
   const { breezecardNum } = req.params;
-  const { value } = req.body;
-  const card = await Breezecard.findById(breezecardNum)
-  await card.increment('value', { by: value })
-  res.send({ success: true, data: card });
+  const { value, username } = req.body;
+  // const card = await Breezecard.findById(breezecardNum)
+  // await card.increment('value', { by: value })
+  await Breezecard.update({
+    value,
+    belongsTo: username
+  }, {
+    where: { breezecardNum }
+  });
+  res.send({ success: true });
 });
 
 router.delete('/:breezecardNum', async (req, res) => {
@@ -68,28 +74,3 @@ router.delete('/:breezecardNum', async (req, res) => {
 })  
 
 module.exports = router;
-
-// router.route('/update-card-value')
-// .post((req, res) => {
-//     connection.query(
-//         `UPDATE Breezecard
-//         SET Value = ${req.body.newValue}
-//         WHERE BreezecardNum = "${req.body.Number}"`,
-//         () => {
-//             res.send({});
-//         });
-// });
-// router.route('/update-card-owner')
-// .post((req, res) => {
-//     connection.query(
-//         `UPDATE Breezecard
-//         SET BelongsTo = "${req.body.newOwner}"
-//         WHERE BreezecardNum = "${req.body.Number}"`,
-//         (err) => {
-//             if (err) {
-//                 res.send({err: "User does not exist! Time: " + new Date()});
-//             } else {
-//                 res.send({});
-//             }
-//         });
-// });

@@ -20,6 +20,14 @@ delete() {
   fi
 }
 
+put() {
+  if [ -z "$2" ]
+  then curl -gsSX PUT $1 | python -m json.tool
+  else curl -sS -X PUT -H 'Content-Type:application/json' -d "$2" $1 \
+    | python -m json.tool
+  fi
+}
+
 # post $root/login '{
 #   "username":"admin",
 #   "password":"admin123"
@@ -31,7 +39,7 @@ delete() {
 # }'
 # post $root/login '{"username":"wenqi","password":"pass"}'
 # get $root/cards
-# post $root/cards/0475861680208144 '{"value":"-10"}'
+# put $root/cards/0475861680208144 '{"value":200,"username":"kellis"}'
 # delete $root/cards/9248324548250130
 # delete $root/cards/9248324548250130 '{"username":"sandrapatel"}'
 # get $root/stations
@@ -46,14 +54,26 @@ delete() {
 # get $root/trips?endTime=2017-10-31%2021:30:01
 # get $root/trips?endTime=2017-10-27%2009:40:11&startTime=2017-10-27%2009:40:11 
 # get $root/trips?username=sandrapatel
-post $root/trips '{
-    "breezecardNum":"7534785562588930",
-    "tripFare":"10"}'
+# post $root/trips '{
+#     "breezecardNum":"7534785562588930",
+#     "tripFare":"10"}'
 # post $root/trips '{
 #     "breezecardNum":"7534785562588930",
 #     "tripFare":"10",
 #     "startTime":"2018-12-01 00:00:00",
 #     "startsAt":"FP",
 #     "endsAt":"BUSDOME"}'
+# get $root/stations
+# put $root/stations/BUSN11
+# put $root/stations/BUSN11 '{
+#   "enterFare":28.3,
+#   "closedStatus":true
+# }'
+# put $root/stations/BUSN4 '{
+#   "enterFare":25.8,
+#   "closedStatus":false,
+#   "isTrain":false,
+#   "intersection":"hahahaha"
+# }'
 
 # get $root/report

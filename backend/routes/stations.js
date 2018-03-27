@@ -62,13 +62,19 @@ router.put('/:stopId', async (req, res) => {
     intersection
   } = req.body;
   try {
+    if (!enterFare && !closedStatus) {
+      throw 'No update needed';
+    }
     await Station.update({
       enterFare,
       closedStatus
     }, {
       where: { stopId }
     });
-    if (!isTrain) {
+    if (isTrain === false) {
+      if (!intersection) {
+        throw 'No update needed';
+      }
       BusStationIntersection.update({
         intersection
       }, {
@@ -77,7 +83,8 @@ router.put('/:stopId', async (req, res) => {
     }
     res.send({ success: true })
   } catch(error) {
-    res.send(error);
+    console.log(error)
+    res.send({ error });
   }
 });
 
