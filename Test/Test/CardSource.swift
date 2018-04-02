@@ -32,9 +32,11 @@ class CardSource: NSObject, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell") as! MyTableViewCell
         let datum = self.data[indexPath.row]
-        cell.textLabel?.text = datum.toString()
+        cell.numberLabel.text = datum.breezecardNum
+        cell.valueLabel.text = datum.value
+        cell.userLabel.text = datum.belongsTo
         return cell
     }
     
@@ -53,8 +55,8 @@ class CardSource: NSObject, UITableViewDataSource {
                     let dec = JSONDecoder()
                     if let dict = (try? dec.decode([Card].self, from: data)) {
                         self.data = dict
-                        print(self.data)
                         self.tableViewController?.tableView.reloadData()
+                        print("HA")
                     }
                 }
                 return

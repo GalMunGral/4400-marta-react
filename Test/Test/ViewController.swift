@@ -19,7 +19,6 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CardCell")
         self.tableView.dataSource = source
         self.tableView.delegate = self
         self.source?.fetch()
