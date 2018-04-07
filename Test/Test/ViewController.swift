@@ -13,12 +13,16 @@ class ViewController: UITableViewController {
 
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+  }
+  override init(style: UITableViewStyle) {
+    super.init(style: style)
     self.source = CardSource(self)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
+    self.tableView.register(MyTableViewCell.self, forCellReuseIdentifier: "CardCell")
     self.tableView.dataSource = source
     self.tableView.delegate = self
     self.source?.fetch()

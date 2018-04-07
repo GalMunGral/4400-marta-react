@@ -10,9 +10,24 @@ import UIKit
 
 class MyTableViewCell: UITableViewCell {
 
-  @IBOutlet weak var numberLabel: UILabel!
-  @IBOutlet weak var valueLabel: UILabel!
-  @IBOutlet weak var userLabel: UILabel!
+  var numberLabel: UILabel!
+  var valueLabel: UILabel!
+  var userLabel: UILabel!
+  
+  override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    numberLabel = UILabel()
+    valueLabel = UILabel()
+    userLabel = UILabel()
+    self.addSubview(numberLabel)
+    numberLabel.frame = self.frame
+    self.addSubview(valueLabel)
+    self.addSubview(userLabel)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func awakeFromNib() {
     super.awakeFromNib()
