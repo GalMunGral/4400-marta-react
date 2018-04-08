@@ -8,21 +8,23 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class TableViewController: UITableViewController {
   var source:CardSource?
 
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
   override init(style: UITableViewStyle) {
     super.init(style: style)
     self.source = CardSource(self)
   }
   
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-    self.tableView.register(MyTableViewCell.self, forCellReuseIdentifier: "CardCell")
+    self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "CardCell")
+    self.tableView.rowHeight = 100
     self.tableView.dataSource = source
     self.tableView.delegate = self
     self.source?.fetch()

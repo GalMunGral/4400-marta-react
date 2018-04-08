@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		256DD4F4207198BD00F6DA97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD4F3207198BD00F6DA97 /* AppDelegate.swift */; };
-		256DD4F6207198BD00F6DA97 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD4F5207198BD00F6DA97 /* ViewController.swift */; };
+		256DD4F6207198BD00F6DA97 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD4F5207198BD00F6DA97 /* TableViewController.swift */; };
 		256DD4FB207198C000F6DA97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 256DD4FA207198C000F6DA97 /* Assets.xcassets */; };
 		256DD4FE207198C000F6DA97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 256DD4FC207198C000F6DA97 /* LaunchScreen.storyboard */; };
 		256DD52220719F5200F6DA97 /* CardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD52120719F5200F6DA97 /* CardSource.swift */; };
-		256DD5262072298200F6DA97 /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD5252072298200F6DA97 /* MyTableViewCell.swift */; };
+		256DD5262072298200F6DA97 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD5252072298200F6DA97 /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,16 +33,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		256DD4F0207198BD00F6DA97 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		256DD4F0207198BD00F6DA97 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Test.app; path = "/Users/wenqihe/Desktop/marta-passenger-traffic/Test/build/Release-iphoneos/Test.app"; sourceTree = "<absolute>"; };
 		256DD4F3207198BD00F6DA97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		256DD4F5207198BD00F6DA97 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		256DD4F5207198BD00F6DA97 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		256DD4FA207198C000F6DA97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		256DD4FD207198C000F6DA97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		256DD4FF207198C000F6DA97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		256DD504207198C000F6DA97 /* TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		256DD50F207198C000F6DA97 /* TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		256DD504207198C000F6DA97 /* TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TestTests.xctest; path = "/Users/wenqihe/Desktop/marta-passenger-traffic/Test/build/Debug-iphoneos/TestTests.xctest"; sourceTree = "<absolute>"; };
+		256DD50F207198C000F6DA97 /* TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = TestUITests.xctest; path = "/Users/wenqihe/Desktop/marta-passenger-traffic/Test/build/Debug-iphoneos/TestUITests.xctest"; sourceTree = "<absolute>"; };
 		256DD52120719F5200F6DA97 /* CardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSource.swift; sourceTree = "<group>"; };
-		256DD5252072298200F6DA97 /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
+		256DD5252072298200F6DA97 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,26 +74,15 @@
 			isa = PBXGroup;
 			children = (
 				256DD4F2207198BD00F6DA97 /* Test */,
-				256DD4F1207198BD00F6DA97 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		256DD4F1207198BD00F6DA97 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				256DD4F0207198BD00F6DA97 /* Test.app */,
-				256DD504207198C000F6DA97 /* TestTests.xctest */,
-				256DD50F207198C000F6DA97 /* TestUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		256DD4F2207198BD00F6DA97 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				256DD5252072298200F6DA97 /* MyTableViewCell.swift */,
+				256DD5252072298200F6DA97 /* TableViewCell.swift */,
 				256DD4F3207198BD00F6DA97 /* AppDelegate.swift */,
-				256DD4F5207198BD00F6DA97 /* ViewController.swift */,
+				256DD4F5207198BD00F6DA97 /* TableViewController.swift */,
 				256DD52120719F5200F6DA97 /* CardSource.swift */,
 				256DD4FA207198C000F6DA97 /* Assets.xcassets */,
 				256DD4FC207198C000F6DA97 /* LaunchScreen.storyboard */,
@@ -190,7 +179,7 @@
 				Base,
 			);
 			mainGroup = 256DD4E7207198BD00F6DA97;
-			productRefGroup = 256DD4F1207198BD00F6DA97 /* Products */;
+			productRefGroup = 256DD4E7207198BD00F6DA97;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -232,8 +221,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				256DD4F6207198BD00F6DA97 /* ViewController.swift in Sources */,
-				256DD5262072298200F6DA97 /* MyTableViewCell.swift in Sources */,
+				256DD4F6207198BD00F6DA97 /* TableViewController.swift in Sources */,
+				256DD5262072298200F6DA97 /* TableViewCell.swift in Sources */,
 				256DD4F4207198BD00F6DA97 /* AppDelegate.swift in Sources */,
 				256DD52220719F5200F6DA97 /* CardSource.swift in Sources */,
 			);
