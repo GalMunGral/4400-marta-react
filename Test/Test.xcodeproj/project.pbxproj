@@ -11,8 +11,6 @@
 		256DD4F6207198BD00F6DA97 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD4F5207198BD00F6DA97 /* ViewController.swift */; };
 		256DD4FB207198C000F6DA97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 256DD4FA207198C000F6DA97 /* Assets.xcassets */; };
 		256DD4FE207198C000F6DA97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 256DD4FC207198C000F6DA97 /* LaunchScreen.storyboard */; };
-		256DD509207198C000F6DA97 /* TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD508207198C000F6DA97 /* TestTests.swift */; };
-		256DD514207198C000F6DA97 /* TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD513207198C000F6DA97 /* TestUITests.swift */; };
 		256DD52220719F5200F6DA97 /* CardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD52120719F5200F6DA97 /* CardSource.swift */; };
 		256DD5262072298200F6DA97 /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD5252072298200F6DA97 /* MyTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -42,11 +40,7 @@
 		256DD4FD207198C000F6DA97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		256DD4FF207198C000F6DA97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		256DD504207198C000F6DA97 /* TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		256DD508207198C000F6DA97 /* TestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTests.swift; sourceTree = "<group>"; };
-		256DD50A207198C000F6DA97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		256DD50F207198C000F6DA97 /* TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		256DD513207198C000F6DA97 /* TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUITests.swift; sourceTree = "<group>"; };
-		256DD515207198C000F6DA97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		256DD52120719F5200F6DA97 /* CardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSource.swift; sourceTree = "<group>"; };
 		256DD5252072298200F6DA97 /* MyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,8 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				256DD4F2207198BD00F6DA97 /* Test */,
-				256DD507207198C000F6DA97 /* TestTests */,
-				256DD512207198C000F6DA97 /* TestUITests */,
 				256DD4F1207198BD00F6DA97 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,24 +100,6 @@
 				256DD4FF207198C000F6DA97 /* Info.plist */,
 			);
 			path = Test;
-			sourceTree = "<group>";
-		};
-		256DD507207198C000F6DA97 /* TestTests */ = {
-			isa = PBXGroup;
-			children = (
-				256DD508207198C000F6DA97 /* TestTests.swift */,
-				256DD50A207198C000F6DA97 /* Info.plist */,
-			);
-			path = TestTests;
-			sourceTree = "<group>";
-		};
-		256DD512207198C000F6DA97 /* TestUITests */ = {
-			isa = PBXGroup;
-			children = (
-				256DD513207198C000F6DA97 /* TestUITests.swift */,
-				256DD515207198C000F6DA97 /* Info.plist */,
-			);
-			path = TestUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,7 +243,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				256DD509207198C000F6DA97 /* TestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +250,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				256DD514207198C000F6DA97 /* TestUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
