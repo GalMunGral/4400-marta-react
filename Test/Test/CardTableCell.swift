@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class CardTableCell: UITableViewCell {
 
   var numberLabel: UILabel!
   var valueLabel: UILabel!

@@ -8,9 +8,12 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class CardTableViewController: UITableViewController {
   var source:CardSource?
 
+  convenience init() {
+    self.init(style: .plain)
+  }
   override init(style: UITableViewStyle) {
     super.init(style: style)
     self.source = CardSource(self)
@@ -22,12 +25,22 @@ class TableViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    self.tableView.register(TableViewCell.self, forCellReuseIdentifier: "CardCell")
+    // Table view
+    self.tableView.register(CardTableCell.self, forCellReuseIdentifier: "CardCell")
     self.tableView.rowHeight = 100
     self.tableView.dataSource = source
     self.tableView.delegate = self
     self.source?.fetch()
+    // Navigation Item
+    self.navigationItem.rightBarButtonItem =
+      UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(test(_:)))
+    self.navigationItem.title = "Breezecards"
+    // Tab Bar Item
+    self.tabBarItem = UITabBarItem(title: "Breezecard", image: UIImage(named: "card"), tag: 0)
+  }
+  
+  @objc func test(_ sender: UIBarButtonItem) -> Void {
+    self.navigationController?.pushViewController(CardTableViewController(), animated: true)
   }
 
   override func didReceiveMemoryWarning() {

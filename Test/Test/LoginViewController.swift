@@ -8,6 +8,17 @@
 
 import UIKit
 
+struct Credential: Encodable {
+  let username: String?
+  let password: String?
+}
+
+struct Response: Decodable {
+  let success: Bool
+  let error: String?
+  let userType: String?
+}
+
 class LoginViewController: UIViewController {
   var button: UIButton!
   var usernameInput: UITextField!
@@ -19,6 +30,7 @@ class LoginViewController: UIViewController {
     
     usernameInput = {
       let input = UITextField()
+      input.autocapitalizationType = .none
       input.placeholder = "Username"
       input.translatesAutoresizingMaskIntoConstraints = false
       input.textAlignment = .center
@@ -28,6 +40,7 @@ class LoginViewController: UIViewController {
     
     passwordInput = {
       let input = UITextField()
+      input.autocapitalizationType = .none
       input.placeholder = "Password"
       input.translatesAutoresizingMaskIntoConstraints = false
       input.textAlignment = .center
@@ -44,22 +57,52 @@ class LoginViewController: UIViewController {
     }()
     self.view.addSubview(button)
     
-    usernameInput.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    usernameInput.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -10).isActive = true
-    usernameInput.widthAnchor.constraint(equalToConstant: 100).isActive = true
-    passwordInput.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    passwordInput.topAnchor.constraint(equalTo: usernameInput.bottomAnchor, constant: 10).isActive = true
-    passwordInput.widthAnchor.constraint(equalToConstant: 100).isActive = true
-    button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    button.topAnchor.constraint(equalTo: passwordInput.bottomAnchor, constant: 10).isActive = true
+    usernameInput.centerXAnchor
+      .constraint(equalTo: view.centerXAnchor).isActive = true
+    usernameInput.centerYAnchor
+      .constraint(equalTo: view.centerYAnchor, constant: -10).isActive = true
+    usernameInput.widthAnchor
+      .constraint(equalToConstant: 100).isActive = true
+    passwordInput.centerXAnchor
+      .constraint(equalTo: view.centerXAnchor).isActive = true
+    passwordInput.topAnchor
+      .constraint(equalTo: usernameInput.bottomAnchor, constant: 10).isActive = true
+    passwordInput.widthAnchor
+      .constraint(equalToConstant: 100).isActive = true
+    button.centerXAnchor
+      .constraint(equalTo: view.centerXAnchor).isActive = true
+    button.topAnchor
+      .constraint(equalTo: passwordInput.bottomAnchor, constant: 10).isActive = true
     
     button.addTarget(self, action: #selector(test), for: .touchUpInside)
   }
   
   @objc func test() -> Void {
-    print(usernameInput.text!)
-    print(passwordInput.text!)
-  }
+    let encoder = JSONEncoder()
+    let decoder = JSONDecoder()
+    let url = URL(string: "http://localhost:3000/login")!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.httpBody = try? encoder.encode(
+      Credential(username: usernameInput.text, password: passwordInput.text)
+    )
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    let task = URLSession.shared.dataTask(with: request) { (data, res, err) in
+      if let err = err {
+        print(err)
+      }
+      if let data = data,
+        let res = try? decoder.decode(Response.self, from: data) {
+        if res.success {
+          DispatchQueue.main.async {
+            let vc = TabBarController()
+            self.present(vc, animated: true, completion: nil)
+          }
+        }
+      }
+    }
+    task.resume()
+}
  
   
   override func didReceiveMemoryWarning() {

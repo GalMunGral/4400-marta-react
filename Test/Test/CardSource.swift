@@ -50,7 +50,7 @@ class CardSource: NSObject, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell") as! TableViewCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell") as! CardTableCell
     let datum = self.data[indexPath.row]
     cell.numberLabel.text = "Breezecard No.: \(datum.breezecardNum)"
     cell.valueLabel.text = "Value: \(datum.value)"

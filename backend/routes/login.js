@@ -5,6 +5,7 @@ router = require('express').Router();
 
 router.post('/', async (req, res) => {
   let { username, password } = req.body;
+  console.log(password)
   password = md5(password);
   let user;
   console.log(username, password)
