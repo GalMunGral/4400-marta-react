@@ -74,10 +74,10 @@ class LoginViewController: UIViewController {
     button.topAnchor
       .constraint(equalTo: passwordInput.bottomAnchor, constant: 10).isActive = true
     
-    button.addTarget(self, action: #selector(test), for: .touchUpInside)
+    button.addTarget(self, action: #selector(login), for: .touchUpInside)
   }
   
-  @objc func test() -> Void {
+  @objc func login() -> Void {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
     let url = URL(string: "http://localhost:3000/login")!

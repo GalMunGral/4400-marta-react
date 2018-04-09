@@ -14,7 +14,6 @@
 		256DD4FE207198C000F6DA97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 256DD4FC207198C000F6DA97 /* LaunchScreen.storyboard */; };
 		256DD52220719F5200F6DA97 /* CardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD52120719F5200F6DA97 /* CardSource.swift */; };
 		256DD5262072298200F6DA97 /* CardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DD5252072298200F6DA97 /* CardTableCell.swift */; };
-		259E9B8D207B4A9300D41477 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 259E9B8C207B4A9300D41477 /* Default-568h@2x.png */; };
 		25E240D1207B199300E2CF44 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E240D0207B199300E2CF44 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		256DD4FF207198C000F6DA97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		256DD52120719F5200F6DA97 /* CardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSource.swift; sourceTree = "<group>"; };
 		256DD5252072298200F6DA97 /* CardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableCell.swift; sourceTree = "<group>"; };
-		259E9B8C207B4A9300D41477 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		25E240D0207B199300E2CF44 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,7 +44,6 @@
 		256DD4E7207198BD00F6DA97 = {
 			isa = PBXGroup;
 			children = (
-				259E9B8C207B4A9300D41477 /* Default-568h@2x.png */,
 				256DD4F2207198BD00F6DA97 /* MartaPassengerTraffic */,
 				252A50A12079EE470063AE77 /* MartaPassengerTraffic.app */,
 			);
@@ -128,7 +125,6 @@
 			files = (
 				256DD4FE207198C000F6DA97 /* LaunchScreen.storyboard in Resources */,
 				256DD4FB207198C000F6DA97 /* Assets.xcassets in Resources */,
-				259E9B8D207B4A9300D41477 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
