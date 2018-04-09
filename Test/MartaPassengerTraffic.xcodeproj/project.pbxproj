@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		252A50A12079EE470063AE77 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		252A50A12079EE470063AE77 /* MartaPassengerTraffic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MartaPassengerTraffic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		252A50A4207A85FE0063AE77 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		256DD4F3207198BD00F6DA97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		256DD4F5207198BD00F6DA97 /* CardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableViewController.swift; sourceTree = "<group>"; };
@@ -45,7 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				256DD4F2207198BD00F6DA97 /* Test */,
-				252A50A12079EE470063AE77 /* Test.app */,
+				252A50A12079EE470063AE77 /* MartaPassengerTraffic.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,9 +68,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		256DD4EF207198BD00F6DA97 /* Test */ = {
+		256DD4EF207198BD00F6DA97 /* MartaPassengerTraffic */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 256DD518207198C000F6DA97 /* Build configuration list for PBXNativeTarget "Test" */;
+			buildConfigurationList = 256DD518207198C000F6DA97 /* Build configuration list for PBXNativeTarget "MartaPassengerTraffic" */;
 			buildPhases = (
 				256DD4EC207198BD00F6DA97 /* Sources */,
 				256DD4ED207198BD00F6DA97 /* Frameworks */,
@@ -80,9 +80,9 @@
 			);
 			dependencies = (
 			);
-			name = Test;
+			name = MartaPassengerTraffic;
 			productName = Test;
-			productReference = 252A50A12079EE470063AE77 /* Test.app */;
+			productReference = 252A50A12079EE470063AE77 /* MartaPassengerTraffic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -100,7 +100,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 256DD4EB207198BD00F6DA97 /* Build configuration list for PBXProject "Test" */;
+			buildConfigurationList = 256DD4EB207198BD00F6DA97 /* Build configuration list for PBXProject "MartaPassengerTraffic" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,7 +113,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				256DD4EF207198BD00F6DA97 /* Test */,
+				256DD4EF207198BD00F6DA97 /* MartaPassengerTraffic */,
 			);
 		};
 /* End PBXProject section */
@@ -282,7 +282,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.Test;
+				PRODUCT_BUNDLE_IDENTIFIER = me.martaPassengerTraffic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,7 +299,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.Test;
+				PRODUCT_BUNDLE_IDENTIFIER = me.martaPassengerTraffic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -309,7 +309,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		256DD4EB207198BD00F6DA97 /* Build configuration list for PBXProject "Test" */ = {
+		256DD4EB207198BD00F6DA97 /* Build configuration list for PBXProject "MartaPassengerTraffic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				256DD516207198C000F6DA97 /* Debug */,
@@ -318,7 +318,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		256DD518207198C000F6DA97 /* Build configuration list for PBXNativeTarget "Test" */ = {
+		256DD518207198C000F6DA97 /* Build configuration list for PBXNativeTarget "MartaPassengerTraffic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				256DD519207198C000F6DA97 /* Debug */,
