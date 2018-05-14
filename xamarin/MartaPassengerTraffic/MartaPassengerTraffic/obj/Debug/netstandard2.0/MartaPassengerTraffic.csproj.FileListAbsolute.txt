@@ -1,0 +1,9 @@
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.csprojResolveAssemblyReference.cache
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.csproj.CoreCompileInputs.cache
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.AssemblyInfoInputs.cache
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.AssemblyInfo.cs
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/bin/Debug/netstandard2.0/MartaPassengerTraffic.deps.json
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/bin/Debug/netstandard2.0/MartaPassengerTraffic.dll
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/bin/Debug/netstandard2.0/MartaPassengerTraffic.pdb
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.dll
+/Users/wenqihe/Desktop/marta-passenger-traffic/xamarin/MartaPassengerTraffic/MartaPassengerTraffic/obj/Debug/netstandard2.0/MartaPassengerTraffic.pdb
