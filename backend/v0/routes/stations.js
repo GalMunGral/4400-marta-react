@@ -3,26 +3,26 @@ const router = express.Router();
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'marta_v0',
-    timezone: 'utc',
-    dateStrings: true
+  host: 'localhost',
+  user: 'root',
+  database: 'marta_v0',
+  timezone: 'utc',
+  dateStrings: true
 });
 
 router.route('/')
-.get((req, res) => {
+  .get((req, res) => {
     connection.query(
-        `SELECT Name,StopID,EnterFare,ClosedStatus,IsTrain,Intersection
+      `SELECT Name,StopID,EnterFare,ClosedStatus,IsTrain,Intersection
         FROM Station NATURAL LEFT OUTER JOIN BusStationIntersection
-        ORDER BY ${req.query.attr} ${req.query.asc === "true" ? "ASC" : "DESC"}
+        ORDER BY ${req.query.attr} ${req.query.asc === 'true' ? 'ASC' : 'DESC'}
         `,
-        (err, results) => {
-            res.send({
-                results
-            });
-        }
+      (err, results) => {
+        res.send({
+          results
+        });
+      }
     );
-});
+  });
 
 module.exports = router;
