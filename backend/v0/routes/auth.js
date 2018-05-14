@@ -72,8 +72,8 @@ router.route('/register')
                     if (r3[0].BelongsTo === null) {
                       connection.query(
                         `UPDATE Breezecard
-                                            SET BelongsTo = "${req.body.username}"
-                                            WHERE BreezecardNum = "${req.body.cardNo}"`,
+                          SET BelongsTo = "${req.body.username}"
+                          WHERE BreezecardNum = "${req.body.cardNo}"`,
                         () => {
                           res.send({
                             success: true
