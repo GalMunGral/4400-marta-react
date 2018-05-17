@@ -6,34 +6,34 @@ using System.Net.Http;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MartaPassengerTraffic
 {
-	public partial class App : Application
-	{
-		// Shared HTTP client
-		public HttpClient MyHttpClient;
+  public partial class App : Application
+  {
+    // Shared HTTP client
+    public HttpClient MyHttpClient;
 
-		public App()
-		{
-			InitializeComponent();
+    public App()
+    {
+      InitializeComponent();
 
-			MyHttpClient = new HttpClient();
+      MyHttpClient = new HttpClient();
 
-			MainPage = new NavigationPage(new MainPage());
-		}
+      MainPage = new NavigationPage(new MainPage());
+    }
 
-		protected override void OnStart()
-		{
-			// Handle when your app starts
+    protected override void OnStart()
+    {
+      // Handle when your app starts
 
-		}
+    }
 
-		protected override void OnSleep()
-		{
-			// Handle when your app sleeps
-		}
+    protected override void OnSleep()
+    {
+      // Handle when your app sleeps
+    }
 
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
-		}
-	}
+    protected override void OnResume()
+    {
+      // Handle when your app resumes
+    }
+  }
 }
