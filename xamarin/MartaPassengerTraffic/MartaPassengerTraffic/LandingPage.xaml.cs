@@ -5,11 +5,11 @@ using Xamarin.Forms;
 
 namespace MartaPassengerTraffic
 {
-	public partial class LandingPage : ContentPage
-	{
-		public LandingPage()
-		{
-			InitializeComponent();
-		}
-	}
+  public partial class LandingPage : ContentPage
+  {
+    public LandingPage()
+    {
+      InitializeComponent();
+    }
+  }
 }
