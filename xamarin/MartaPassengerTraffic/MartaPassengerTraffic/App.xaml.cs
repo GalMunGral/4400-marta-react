@@ -2,30 +2,28 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MartaPassengerTraffic
 {
     public partial class App : Application
     {
+		// Shared HTTP client
+		public HttpClient MyHttpClient;
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+			MyHttpClient = new HttpClient();
+
+			MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
         {
 			// Handle when your app starts
-			var client = new HttpClient();
-			Task<HttpResponseMessage> a = client.GetAsync("https://www.google.com");
-			a.ContinueWith((resA) =>
-			{
-				Task<string> b = resA.Result.Content.ReadAsStringAsync();
-				b.ContinueWith((resB) => Console.WriteLine(resB.Result));
-			});
+
         }
         
         protected override void OnSleep()
