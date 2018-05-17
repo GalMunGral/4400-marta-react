@@ -14,26 +14,28 @@ namespace MartaPassengerTraffic
 		{
 			InitializeComponent();
 		}
-        
-		async void Login() {
+
+		async void Login()
+		{
 			var client = ((App)(Application.Current)).MyHttpClient;
-            Task<HttpResponseMessage> a = client.GetAsync("http://localhost:3000/stations");
+			Task<HttpResponseMessage> a = client.GetAsync("http://localhost:3000/stations");
 			a.ContinueWith((resA) =>
-            {
-                Console.WriteLine("Got the results");
-                Console.WriteLine(resA.Status);
-                Task<string> b = resA.Result.Content.ReadAsStringAsync();
-                b.ContinueWith((resB) => {
-                    Console.WriteLine(resB.Result);
-                });
-            });
+			{
+				Console.WriteLine("Got the results");
+				Console.WriteLine(resA.Status);
+				Task<string> b = resA.Result.Content.ReadAsStringAsync();
+				b.ContinueWith((resB) =>
+				{
+					Console.WriteLine(resB.Result);
+				});
+			});
 			var newPage = new LandingPage();
 			var data = new TestData
-            {
-                Username = usernameEntry.Text
-            };
+			{
+				Username = usernameEntry.Text
+			};
 			newPage.BindingContext = data;
-			Console.WriteLine(((TestData) newPage.BindingContext).Username);
+			Console.WriteLine(((TestData)newPage.BindingContext).Username);
 			await Navigation.PushAsync(newPage);
 		}
 	}

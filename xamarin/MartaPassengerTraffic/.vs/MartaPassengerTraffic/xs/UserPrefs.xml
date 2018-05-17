@@ -1,12 +1,12 @@
-﻿<Properties StartupConfiguration="{F0172663-F049-4F2B-AF49-DFAEF542D9EB}|Default">
+﻿<Properties StartupConfiguration="{3FA91732-ABF1-42C3-B441-0C342A38A83B}|Default">
   <MonoDevelop.Ide.ItemProperties.MartaPassengerTraffic.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.B988DBF6-BE9D-4802-83B5-41978E8FFF5B" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MartaPassengerTraffic/MyPage.xaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MartaPassengerTraffic/MainPage.xaml.cs">
     <Files>
       <File FileName="MartaPassengerTraffic/App.xaml.cs" Line="10" Column="6" />
-      <File FileName="MartaPassengerTraffic/MainPage.xaml.cs" Line="30" Column="46" />
-      <File FileName="MartaPassengerTraffic/MainPage.xaml" Line="10" Column="15" />
-      <File FileName="MartaPassengerTraffic/MyPage.xaml" Line="6" Column="1" />
-      <File FileName="MartaPassengerTraffic/MyPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="MartaPassengerTraffic/MainPage.xaml.cs" Line="15" Column="19" />
+      <File FileName="MartaPassengerTraffic/MainPage.xaml" Line="8" Column="47" />
+      <File FileName="MartaPassengerTraffic/LandingPage.xaml" Line="9" Column="1" />
+      <File FileName="MartaPassengerTraffic/LandingPage.xaml.cs" Line="13" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

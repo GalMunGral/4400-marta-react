@@ -68,4 +68,13 @@ Global
 		{F5538E7A-F933-4152-8D24-84830B17726C}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
 		{F5538E7A-F933-4152-8D24-84830B17726C}.AppStore|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 80
+		$1.TabWidth = 2
+		$1.TabsToSpaces = True
+		$1.IndentWidth = 2
+		$1.scope = text/plain
+	EndGlobalSection
 EndGlobal
