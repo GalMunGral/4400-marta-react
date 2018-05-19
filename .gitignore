@@ -3,4 +3,5 @@ bundle.js
 package-lock.json
 bin/
 obj/
+.vs/
 .DS_Store
