@@ -23,9 +23,9 @@ namespace MartaPassengerTraffic
       // Fetch station data.
       var client = ((App)(Application.Current)).MyHttpClient;
       string endpoint = "http://128.61.18.191:3000/stations";
-      ((Task<HttpResponseMessage>)client.GetAsync(endpoint)).ContinueWith((resA) =>
+      ((Task<HttpResponseMessage>) client.GetAsync(endpoint)).ContinueWith((resA) =>
       {
-        ((Task<string>)resA.Result.Content.ReadAsStringAsync()).ContinueWith((resB) =>
+        ((Task<string>) resA.Result.Content.ReadAsStringAsync()).ContinueWith((resB) =>
         {
           var data = JsonConvert.DeserializeObject<ObservableCollection<Station>>(resB.Result);
           foreach (var station in data) {
