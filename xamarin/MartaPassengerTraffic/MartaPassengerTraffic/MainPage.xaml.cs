@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Net.Http;
 
@@ -17,25 +16,10 @@ namespace MartaPassengerTraffic
 
     async void Login()
     {
-      var client = ((App)(Application.Current)).MyHttpClient;
-      Task<HttpResponseMessage> a = client.GetAsync("http://localhost:3000/stations");
-      a.ContinueWith((resA) =>
-      {
-        Console.WriteLine("Got the results");
-        Console.WriteLine(resA.Status);
-        Task<string> b = resA.Result.Content.ReadAsStringAsync();
-        b.ContinueWith((resB) =>
-        {
-          Console.WriteLine(resB.Result);
-        });
-      });
+      // No authentication performed. Just use input as username.
       var newPage = new LandingPage();
-      var data = new TestData
-      {
-        Username = usernameEntry.Text
-      };
+      var data = new TestData { Username = usernameEntry.Text };
       newPage.BindingContext = data;
-      Console.WriteLine(((TestData)newPage.BindingContext).Username);
       await Navigation.PushAsync(newPage);
     }
   }

@@ -9,7 +9,7 @@ namespace MartaPassengerTraffic
   public partial class App : Application
   {
     // Shared HTTP client
-    public HttpClient MyHttpClient;
+    public HttpClient MyHttpClient { get; set; }
 
     public App()
     {
