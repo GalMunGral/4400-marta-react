@@ -28,7 +28,7 @@ class CardSource: NSObject, UITableViewDataSource {
   }
 
   func fetch() -> Void {
-    let url = URL(string: "http://localhost:3000/cards")!
+    let url = URL(string: "http://localhost:8080/cards")!
     let task = URLSession.shared.dataTask(with: url) { data, response, error in
       if let data = data {
         let dec = JSONDecoder()

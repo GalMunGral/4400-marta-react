@@ -22,7 +22,7 @@ namespace MartaPassengerTraffic
     {
       // Fetch station data.
       var client = ((App)(Application.Current)).MyHttpClient;
-      string endpoint = "http://128.61.18.191:3000/stations";
+      string endpoint = "http://128.61.17.159:8080/stations";
       ((Task<HttpResponseMessage>) client.GetAsync(endpoint)).ContinueWith((resA) =>
       {
         ((Task<string>) resA.Result.Content.ReadAsStringAsync()).ContinueWith((resB) =>

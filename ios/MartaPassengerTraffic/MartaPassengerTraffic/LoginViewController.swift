@@ -80,7 +80,7 @@ class LoginViewController: UIViewController {
   @objc func login() -> Void {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
-    let url = URL(string: "http://localhost:3000/login")!
+    let url = URL(string: "http://localhost:8080/login")!
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.httpBody = try? encoder.encode(

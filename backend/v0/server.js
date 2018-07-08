@@ -5,8 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-  stdout.log('Got a request!');
+app.use((_, res, next) => {
   res.set({
     'Access-Control-Allow-Origin': 'http://localhost:3000',
     'Access-Control-Allow-Headers': 'Content-Type'
