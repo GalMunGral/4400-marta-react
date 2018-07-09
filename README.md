@@ -10,7 +10,7 @@
   ```mysql
   create database marta_v0;
   use marta_v0;
-  source [project directory]/backend/v0/mysql/init.sql
+  source [project directory]/backend/v0/mysql/init.sql;
   ```
   ## 2. Start the API server
   ```bash
@@ -40,7 +40,7 @@
   ```mysql
   create database marta;
   use marta;
-  source [project directory]/backend/v1/mysql/init.sql
+  source [project directory]/backend/v1/mysql/init.sql;
   ````
   ## 2. Start the API server
   ```bash
