@@ -25,7 +25,8 @@
   ```
   *To log in as administrator, use username `admin` and password `admin123`.
   To log in as passenger use username `commuter14` and password `choochoo`.*
-
+  
+  *The mobile version is just a proof of concept that only displays the list of stations fetched from the server.*
 <details>
   <summary>To Run The iOS / Xamarin.Forms App</summary>
   
@@ -55,5 +56,4 @@
   var client = ((App)(Application.Current)).MyHttpClient;
   string endpoint = "http://[YOUR IP ADDRESS]:8080/stations";
   ```
-  *The mobile version is just a proof of concept that only displays the list of stations fetched from the server.*
 </details>
