@@ -26,9 +26,8 @@
   *To log in as administrator, use username `admin` and password `admin123`.
   To log in as passenger use username `commuter14` and password `choochoo`.*
   
-  *The mobile version is just a proof of concept that only displays the list of stations fetched from the server.*
 <details>
-  <summary>To Run The iOS / Xamarin.Forms App</summary>
+  <summary><i>The mobile version is just a proof of concept (only displays a list of stations/cards)</i></summary>
   
   ### 1. Prepare the database
   Make sure MySQL server is running, then start MySQL client from command line:
