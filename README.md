@@ -21,5 +21,6 @@ cd [project directory]/frontend
 npm install # Install dependencies first
 npm start
 ```
-*To log in as administrator, use username `admin` and password `admin123`.
-To log in as passenger use username `commuter14` and password `choochoo`.*
+*To log in as administrator, use username `admin` and password `admin123`.*
+
+*To log in as passenger use username `commuter14` and password `choochoo`.*
