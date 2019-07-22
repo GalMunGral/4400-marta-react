@@ -1,10 +1,17 @@
-DROP TABLE Trip;
-DROP TABLE BusStationIntersection;
-DROP TABLE Station;
-DROP TABLE Conflict;
-DROP TABLE Breezecard;
-DROP TABLE Passenger;
-DROP TABLE User;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+FLUSH PRIVILEGES;
+-- Fixes 'Client does not support authentication protocol' error
+
+CREATE DATABASE IF NOT EXISTS marta;
+USE marta;
+
+DROP TABLE IF EXISTS Trip;
+DROP TABLE IF EXISTS BusStationIntersection;
+DROP TABLE IF EXISTS Station;
+DROP TABLE IF EXISTS Conflict;
+DROP TABLE IF EXISTS Breezecard;
+DROP TABLE IF EXISTS Passenger;
+DROP TABLE IF EXISTS User;
 
 CREATE TABLE User(
 	Username 		varchar(50),
@@ -45,7 +52,7 @@ CREATE TABLE Conflict(
 
 CREATE TABLE Station(
 	StopID 			varchar(50),
-	Name 			varchar(50) NOT NULL,
+	Name 			varchar(255) NOT NULL,
 	EnterFare 		decimal(4,2) NOT NULL,
 	ClosedStatus 	boolean NOT NULL,
 	IsTrain 		boolean NOT NULL,

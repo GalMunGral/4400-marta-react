@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  database: 'marta_v0',
+  database: 'marta',
   timezone: 'utc',
   dateStrings: true
 });

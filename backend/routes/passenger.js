@@ -5,7 +5,7 @@ const router = express.Router();
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  database: 'marta_v0',
+  database: 'marta',
   timezone: 'utc',
   dateStrings: true
 });
