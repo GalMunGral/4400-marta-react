@@ -1,5 +1,5 @@
 import { showErrorMessage } from '../error';
-import { HOST, PORT } from '../.config';
+import { BASE_URL } from '../.config';
 
 export function selectSuspendedCard(i) {
   return { type: "SELECT_SUSPENDED_CARD", i };
@@ -29,7 +29,7 @@ export function fetchSuspendedCards(order) {
   return (dispatch) => {
     dispatch(requestConflictData());
     return fetch(
-      `http://${HOST}:${PORT}/api/admin/suspended-cards?attr=${order ? order.attr : null}&asc=${order ? order.asc : null}`
+      `//${BASE_URL}/api/admin/suspended-cards?attr=${order ? order.attr : null}&asc=${order ? order.asc : null}`
     )
       .then(res => res.json())
       .then(json => {
@@ -45,7 +45,7 @@ export function fetchSuspendedCards(order) {
 export function resolveConflict(resolution) {
   return (dispatch) => {
     dispatch(requestReassignment(resolution));
-    return fetch(`http://${HOST}:${PORT}/api/admin/resolve-conflict`, {
+    return fetch(`//${BASE_URL}/api/admin/resolve-conflict`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(resolution)

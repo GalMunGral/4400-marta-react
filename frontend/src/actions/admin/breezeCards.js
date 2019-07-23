@@ -1,5 +1,5 @@
 import { showErrorMessage, closeErrorMessage } from '../error';
-import { HOST, PORT } from '../.config';
+import { BASE_URL } from '../.config';
 
 export function selectCard(i) {
   return { type: "SELECT_CARD", i };
@@ -48,7 +48,7 @@ export function fetchCards(filter, order) {
     const attr = order ? order.attr : "";
     const asc = order ? order.asc : "";
     return fetch(
-      `http://${HOST}:${PORT}/api/admin/breeze-cards?owner=${owner}&cardNumber=${cardNumber}&minValue=${minValue}&maxValue=${maxValue}&showSuspended=${showSuspended}&attr=${attr}&asc=${asc}`
+      `//${BASE_URL}/api/admin/breeze-cards?owner=${owner}&cardNumber=${cardNumber}&minValue=${minValue}&maxValue=${maxValue}&showSuspended=${showSuspended}&attr=${attr}&asc=${asc}`
     )
       .then(res => res.json())
       .then((json) => {
@@ -65,7 +65,7 @@ export function fetchCards(filter, order) {
 export function updateCardValue(cardInfo) {
   return (dispatch) => {
     dispatch(requestValueUpdate(cardInfo));
-    fetch(`http://${HOST}:${PORT}/api/admin/update-card-value`, {
+    fetch(`//${BASE_URL}/api/admin/update-card-value`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(cardInfo)
@@ -84,7 +84,7 @@ export function updateCardValue(cardInfo) {
 export function updateCardOwner(cardInfo) {
   return (dispatch) => {
     dispatch(requestOwnerUpdate(cardInfo));
-    fetch(`http://${HOST}:${PORT}/api/admin/update-card-owner`, {
+    fetch(`//${BASE_URL}/api/admin/update-card-owner`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(cardInfo)

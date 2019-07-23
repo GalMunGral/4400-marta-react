@@ -2,23 +2,27 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3001;
+const PORT = 3006;
 
 app.use(bodyParser.json());
-app.use((_, res, next) => {
-  res.set({
-    'Access-Control-Allow-Origin': 'http://localhost:3000',
-    'Access-Control-Allow-Headers': 'Content-Type'
-  });
-  next();
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+    });
+    res.end();
+  } else {
+    next();
+  }
 });
 
-const router = express.Router();
-router.use('/auth', require('./routes/auth'));
-router.use('/stations', require('./routes/stations'));
-router.use('/passenger', require('./routes/passenger'));
-router.use('/admin', require('./routes/admin'));
-app.use('/api', router);
+app.use('/auth', require('./routes/auth'));
+app.use('/stations', require('./routes/stations'));
+app.use('/passenger', require('./routes/passenger'));
+app.use('/admin', require('./routes/admin'));
+
 
 app.listen(PORT, error => {
   error

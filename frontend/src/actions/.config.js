@@ -1,2 +1,1 @@
-export const HOST = 'localhost';
-export const PORT = 3001; // API server port
+export const BASE_URL = 'portfolio-galmungral.herokuapp.com/marta';

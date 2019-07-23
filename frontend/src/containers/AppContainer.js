@@ -1,5 +1,5 @@
 import React from "react";
-import { Router } from 'react-router-dom';
+import { Router, BrowserRouter } from 'react-router-dom';
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 import { Navbar, Image } from "react-bootstrap";
 import Login from "./auth/Login";
@@ -17,8 +17,10 @@ import TripHistory from "./passenger/TripHistory";
 import 'bootstrap/dist/css/bootstrap.css';
 import createHistory from 'history/createBrowserHistory';
 
+import logo from '../../assets/logo.svg';
+
 const AppContainer = () => {
-    const history = createHistory();
+    const history = createHistory({ basename: '/marta' });
 
     return (
         <Router history={history}>
@@ -27,7 +29,7 @@ const AppContainer = () => {
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">
-                                <Image src="/assets/logo.svg" style={{height: "25px"}}/>
+                                <Image src={logo} style={{height: "25px"}}/>
                             </Link>
                         </Navbar.Brand>
                     </Navbar.Header>

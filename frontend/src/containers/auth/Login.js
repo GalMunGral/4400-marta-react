@@ -9,7 +9,6 @@ import { closeErrorMessage } from '../../actions/error';
 import { login } from '../../actions/auth';
 import ErrorMessage from '../ErrorMessage';
 
-
 class Login extends Component {
     constructor(props) {
         super(props);

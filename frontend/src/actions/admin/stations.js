@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { showErrorMessage } from '../error';
-import { HOST, PORT } from '../.config';
+import { BASE_URL } from '../.config';
 
 export function selectStation(i) {
   return { type: "SELECT_STATION", i };
@@ -29,7 +29,7 @@ export function stationCreated(stationInfo) {
 export function updateFare(stationInfo) {
   return (dispatch) => {
     dispatch(requestFareUpdate());
-    fetch(`http://${HOST}:${PORT}/api/admin/update-fare`, {
+    fetch(`//${BASE_URL}/api/admin/update-fare`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(stationInfo)
@@ -47,7 +47,7 @@ export function updateFare(stationInfo) {
 export function createStation(stationInfo) {
   return (dispatch) => {
     dispatch(requestStationCreation(stationInfo));
-    fetch(`http://${HOST}:${PORT}/api/admin/create-station`, {
+    fetch(`//${BASE_URL}/api/admin/create-station`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(stationInfo)

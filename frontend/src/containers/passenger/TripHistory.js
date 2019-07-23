@@ -10,7 +10,6 @@ import { closeErrorMessage, showErrorMessage } from '../../actions/error';
 import { checkDateFormat } from '../../utilities/dateLint';
 import ErrorMessage from '../ErrorMessage';
 
-
 class TripHistory extends Component {
     constructor(props) {
         super(props);
