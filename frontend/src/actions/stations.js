@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { showErrorMessage } from './error';
+import { HOST, PORT } from './.config';
 
 export function requestStationData() {
   return { type: "REQUEST_STATION_DATA" };
@@ -13,7 +14,7 @@ export function fetchStations(order) {
   return (dispatch) => {
     dispatch(requestStationData());
     return fetch(
-      `http://localhost:8080/api/stations?attr=${order ? order.attr : null}&asc=${order ? order.asc : null}`
+      `http://${HOST}:${PORT}/api/stations?attr=${order ? order.attr : null}&asc=${order ? order.asc : null}`
     )
       .then(res => res.json())
       .then((json) => {

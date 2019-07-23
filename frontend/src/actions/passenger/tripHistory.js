@@ -1,4 +1,5 @@
 import { showErrorMessage, closeErrorMessage } from '../error';
+import { HOST, PORT } from '../.config';
 
 export function selectHistoryEntry(i) {
   return { type: "SELECT_HISTORY_ENTRY", i };
@@ -29,7 +30,7 @@ export function fetchTripHistory(username, filter, order) {
     const attr = order ? order.attr : "";
     const asc = order ? order.asc : "";
     return fetch(
-      `http://localhost:8080/api/passenger/trip-history?username=${user}&start=${start}&end=${end}&attr=${attr}&asc=${asc}`
+      `http://${HOST}:${PORT}/api/passenger/trip-history?username=${user}&start=${start}&end=${end}&attr=${attr}&asc=${asc}`
     )
       .then(res => res.json())
       .then((json) => {

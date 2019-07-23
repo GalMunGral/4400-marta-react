@@ -1,4 +1,5 @@
 import { showErrorMessage } from "./error";
+import { HOST, PORT } from './.config';
 
 export function requestLogin(username) {
   return { type: "REQUEST_LOGIN", username };
@@ -31,7 +32,7 @@ export function newUserNotCreated(userInfo) {
 export function login(credentials) {
   return (dispatch) => {
     dispatch(requestLogin(credentials.username));
-    return fetch('http://localhost:8080/api/auth/login', {
+    return fetch(`http://${HOST}:${PORT}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)
@@ -51,7 +52,7 @@ export function login(credentials) {
 export function register(userInfo) {
   return (dispatch) => {
     dispatch(submitUserProfile(userInfo));
-    return fetch('http://localhost:8080/api/auth/register', {
+    return fetch(`http://${HOST}:${PORT}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userInfo)

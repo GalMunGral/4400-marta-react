@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { showErrorMessage, closeErrorMessage } from '../error';
+import { HOST, PORT } from '../.config';
 
 export function selectReport(i) {
   return { type: "SELECT_REPORT", i };
@@ -29,7 +30,7 @@ export function fetchReport(filter, order) {
     const attr = order ? order.attr : null;
     const asc = order ? order.asc : null;
     return fetch(
-      `http://localhost:8080/api/admin/flow-report?start=${start}&end=${end}&attr=${attr}&asc=${asc}`
+      `http://${HOST}:${PORT}/api/admin/flow-report?start=${start}&end=${end}&attr=${attr}&asc=${asc}`
     )
       .then(res => res.json())
       .then((json) => {

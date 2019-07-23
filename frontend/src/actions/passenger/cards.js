@@ -1,4 +1,6 @@
 import { showErrorMessage } from '../error';
+import { HOST, PORT } from '../.config';
+
 export function selectMyCard(i) {
   return { type: "SELECT_MY_CARD", i };
 }
@@ -42,7 +44,7 @@ export function cardRemoved(cardInfo) {
 export function removeCard(cardInfo) {
   return (dispatch) => {
     dispatch(requestCardRemoval(cardInfo));
-    return fetch('http://localhost:8080/api/passenger/remove-card', {
+    return fetch(`http://${HOST}:${PORT}/api/passenger/remove-card`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cardInfo)
@@ -63,7 +65,7 @@ export function fetchMyCards(user, order) {
     const attr = order ? order.attr : "";
     const asc = order ? order.asc : "";
     return fetch(
-      `http://localhost:8080/api/passenger/my-cards?user=${user}&attr=${attr}&asc=${asc}`
+      `http://${HOST}:${PORT}/api/passenger/my-cards?user=${user}&attr=${attr}&asc=${asc}`
     )
       .then(res => res.json())
       .then((json) => {
@@ -79,7 +81,7 @@ export function fetchMyCards(user, order) {
 export function addValueToCard(cardInfo) {
   return (dispatch) => {
     dispatch(requestMyValueUpdate(cardInfo));
-    fetch('http://localhost:8080/api/passenger/add-value', {
+    fetch(`http://${HOST}:${PORT}/api/passenger/add-value`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cardInfo)
@@ -98,7 +100,7 @@ export function addValueToCard(cardInfo) {
 export function addNewCard(cardInfo) {
   return (dispatch) => {
     dispatch(requestNewCard(cardInfo));
-    fetch('http://localhost:8080/api/passenger/new-card', {
+    fetch(`http://${HOST}:${PORT}/api/passenger/new-card`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cardInfo)

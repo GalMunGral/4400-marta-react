@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { showErrorMessage } from '../error';
+import { HOST, PORT } from '../.config';
 
 export function startTrip(i, fare) {
   return { type: "START_TRIP", i, fare};
@@ -24,7 +25,7 @@ export function reset() {
 export function completeTrip(trip) {
   return (dispatch) => {
     dispatch(submitTrip(trip));
-    return fetch('http://localhost:8080/api/passenger/complete-trip', {
+    return fetch(`http://${HOST}:${PORT}/api/passenger/complete-trip`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(trip)
