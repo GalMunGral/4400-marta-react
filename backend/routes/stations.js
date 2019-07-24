@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql2');
+const config = require('../db.config');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'marta',
-  timezone: 'utc',
-  dateStrings: true
-});
+const connection = mysql.createConnection(config);
 
 router.route('/')
   .get((req, res) => {

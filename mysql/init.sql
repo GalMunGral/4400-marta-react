@@ -1,9 +1,10 @@
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
-FLUSH PRIVILEGES;
+-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+-- FLUSH PRIVILEGES;
 -- Fixes 'Client does not support authentication protocol' error
 
-CREATE DATABASE IF NOT EXISTS marta;
-USE marta;
+-- CREATE DATABASE IF NOT EXISTS marta;
+-- USE marta;
+USE hr5jh23mmnrdwtnb;
 
 DROP TABLE IF EXISTS Trip;
 DROP TABLE IF EXISTS BusStationIntersection;
