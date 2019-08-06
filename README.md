@@ -1,6 +1,3 @@
----
-path: cs4400-marta-traffic
----
 ### 1. Prepare the database
 Make sure MySQL server is running, then start MySQL client from command line:
 ```bash
