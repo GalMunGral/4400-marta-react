@@ -4,6 +4,7 @@ module.exports = {
   password: "pass",
   database: "marta2",
 };
+
 // module.exports = {
 //   host: 'h2cwrn74535xdazj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
 //   user: 'tukkhr0yyheurn55',

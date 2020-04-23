@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import TableTemplate from "../../components/TableTemplate";
+import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
 import axios from "axios";
 import { useHistory } from "react-router";
@@ -44,7 +44,7 @@ const Stations = () => {
   return (
     <React.Fragment>
       <header>Station Listing</header>
-      <TableTemplate
+      <Table
         columns={columns}
         data={stations}
         keyFn={(s) => s.StopID}

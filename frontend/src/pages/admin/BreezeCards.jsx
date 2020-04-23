@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import TableTemplate from "../../components/TableTemplate";
-import useFilter from "./BreezeCardFilter";
+import Table from "../../components/Table";
+import useFilter from "../../hooks/BreezeCardFilter";
 import axios from "axios";
 import { debounce } from "lodash";
 
@@ -68,7 +68,7 @@ const BreezeCards = () => {
 
       {filter}
 
-      <TableTemplate
+      <Table
         columns={columns}
         data={cards}
         keyFn={(c) => c.BreezecardNum}

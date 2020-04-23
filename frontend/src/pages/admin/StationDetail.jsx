@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import Stations from "./Stations";
 
 const StationDetail = ({ selected: station, setSelected, loadStations }) => {
   const [stopID, setStopID] = useState(station.StopID);

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import TableTemplate from "../../components/TableTemplate";
+import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
 import axios from "axios";
 
@@ -75,7 +75,7 @@ const ManageCards = () => {
   return (
     <React.Fragment>
       <header>Manage Cards</header>
-      <TableTemplate
+      <Table
         columns={columns}
         data={cards}
         keyFn={(c) => c.BreezecardNum}

@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../contexts";
 import { Redirect, useHistory } from "react-router-dom";
 
@@ -7,22 +7,10 @@ const AdminDashboard = () => {
   const history = useHistory();
 
   const routes = [
-    {
-      name: "Station Management",
-      path: "/stations",
-    },
-    {
-      name: "Suspended Cards",
-      path: "/suspended-cards",
-    },
-    {
-      name: "Breeze Card Management",
-      path: "/breeze-cards",
-    },
-    {
-      name: "Passenger Flow Report",
-      path: "/passenger-flow",
-    },
+    { name: "Station Management", path: "/stations" },
+    { name: "Suspended Cards", path: "/suspended-cards" },
+    { name: "Breeze Card Management", path: "/breeze-cards" },
+    { name: "Passenger Flow Report", path: "/passenger-flow" },
   ];
 
   if (!user) return <Redirect to="/login" />;

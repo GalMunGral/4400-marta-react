@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TableTemplate from "../../components/TableTemplate";
+import Table from "../../components/Table";
 import { getDOMTimeString, getSQLTimeString } from "../../utilities";
 import axios from "axios";
 
@@ -59,7 +59,7 @@ const FlowReport = () => {
         <button onClick={resetFilter}>Reset</button>
       </form>
 
-      <TableTemplate columns={columns} data={reports} keyFn={(r) => r} />
+      <Table columns={columns} data={reports} keyFn={(r) => r.Name} />
     </React.Fragment>
   );
 };

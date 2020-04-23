@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const TableTemplate = ({
+const Table = ({
   columns,
   data,
   keyFn,
@@ -64,4 +64,4 @@ const TableTemplate = ({
   );
 };
 
-export default TableTemplate;
+export default Table;

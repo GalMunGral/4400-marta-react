@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import TableTemplate from "../../components/TableTemplate";
+import Table from "../../components/Table";
 import axios from "axios";
 import { UserContext } from "../../contexts";
 import { getDOMTimeString, getSQLTimeString } from "../../utilities";
@@ -69,11 +69,8 @@ const TripHistory = () => {
           Reset
         </button>
       </form>
-      <TableTemplate
-        columns={columns}
-        data={tripHistory}
-        keyFn={(t) => t.Time}
-      />
+
+      <Table columns={columns} data={tripHistory} keyFn={(t) => t.Time} />
     </React.Fragment>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TableTemplate from "../../components/TableTemplate";
+import Table from "../../components/Table";
 import axios from "axios";
 
 const SuspendedCards = () => {
@@ -34,7 +34,7 @@ const SuspendedCards = () => {
   return (
     <React.Fragment>
       <header>Manage Suspended Cards</header>
-      <TableTemplate
+      <Table
         columns={columns}
         data={cards}
         keyFn={(c) => c.BreezecardNum + c.Username}

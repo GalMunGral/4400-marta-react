@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts";
 import axios from "axios";
@@ -11,7 +11,6 @@ const Login = () => {
 
   const login = async (e) => {
     e.preventDefault();
-    console.log("yp");
     const {
       data: { success, userType },
     } = await axios.post(`/api/auth/login`, {
