@@ -4,7 +4,8 @@
 
 -- CREATE DATABASE IF NOT EXISTS marta;
 -- USE marta;
-USE hr5jh23mmnrdwtnb;
+CREATE DATABASE IF NOT EXISTS marta2;
+USE marta2;
 
 DROP TABLE IF EXISTS Trip;
 DROP TABLE IF EXISTS BusStationIntersection;

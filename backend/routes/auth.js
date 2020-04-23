@@ -1,104 +1,100 @@
-const md5 = require('md5');
-const express = require('express');
-const mysql = require('mysql2');
-const config = require('../db.config');
+const md5 = require("md5");
+const express = require("express");
+const mysql = require("mysql2");
+const config = require("../db.config");
 
 const router = express.Router();
 const connection = mysql.createConnection(config);
 
-router.route('/login')
-  .post((req, res) => {
-    connection.query(
-      `SELECT * FROM User
+router.route("/login").post((req, res) => {
+  connection.query(
+    `SELECT * FROM User
         WHERE Username = "${req.body.username}"
         AND Password = "${md5(req.body.password)}"`,
-      (err, results) => {
-        if (results.length !== 0) {
-          const myResult = {
-            success: true,
-            userType: results[0].IsAdmin === 1 ? 'ADMIN' : 'PASSENGER'
-          };
-          res.send(myResult);
-        } else {
-          res.send({
-            success: false
-          });
-        }
+    (err, results) => {
+      if (err || results.length === 0) return res.status(500).send(err);
+      return res.send({
+        success: true,
+        userType: results[0].IsAdmin ? "ADMIN" : "PASSENGER",
       });
-  });
+    }
+  );
+});
 
+router.route("/register").post((req, res) => {
+  const { username, email, password, breezecardNum } = req.body;
+  const genCardNumber = () => Math.floor(Math.random() * Math.pow(10, 16));
+  connection.query(
+    `INSERT INTO User VALUES ("${username}", "${md5(password)}", 0)`,
+    (err) => {
+      if (err) return res.status(500).send(err);
+      connection.query(
+        `INSERT INTO Passenger VALUES ("${username}", "${email}")`,
+        (err) => {
+          if (err) return res.status(500).send(err);
 
-router.route('/register')
-  .post((req, res) => {
-    const username = () => req.body.username;
-    const email = () => req.body.email;
-    connection.query(
-      `INSERT INTO User VALUES ("${req.body.username}", "${md5(req.body.password)}", 0)`,
-      () => {
-        connection.query(`INSERT INTO Passenger VALUES ("${username()}", "${email()}")`,
-          (e1) => {
-            if (e1) {
-              res.send({err: 'Username already exists!'});
-              return;
-            }
-            if (req.body.cardNo === null) {
-              connection.query(
-                `INSERT INTO Breezecard VALUES ("${Math.floor(Math.random() * Math.pow(10, 16))}", 0, "${username()}")`,
-                (e2) => {
-                  if (e2) {
-                    res.send({res: 'System error! Please try again later'});
-                  }
-                  res.send({
-                    success: true
-                  });
-                });
-            } else {
-              connection.query(
-                `SELECT * FROM Breezecard WHERE BreezecardNum = "${req.body.cardNo}"`,
-                (e3, r3) => {
-                  if (r3.length === 0) {
+          if (!breezecardNum) {
+            // Assign new card
+            connection.query(
+              `INSERT INTO Breezecard VALUES ("${genCardNumber()}", 0, "${username}")`,
+              (err) => {
+                if (err) return res.status(500).send(err);
+                return res.send();
+              }
+            );
+          } else {
+            // Existing card
+            connection.query(
+              `SELECT * FROM Breezecard WHERE BreezecardNum = "${breezecardNum}"`,
+              (err, results) => {
+                if (err) return res.status(500).send(err);
+                if (results.length === 0) {
+                  // It's a new card
+                  connection.query(
+                    `INSERT INTO Breezecard VALUES ("${breezecardNum}", 0, "${username}")`,
+                    (err) => {
+                      if (err) return res.status(500).send(err);
+                      return res.send();
+                    }
+                  );
+                } else {
+                  if (results[0].BelongsTo === null) {
+                    // No one owns the card yet
                     connection.query(
-                      `INSERT INTO Breezecard VALUES ("${req.body.cardNo}", 0, "${req.body.username}")`,
-                      () => {
-                        res.send({
-                          success: true
-                        });
-                      });
-                  } else {
-                    if (r3[0].BelongsTo === null) {
-                      connection.query(
-                        `UPDATE Breezecard
-                          SET BelongsTo = "${req.body.username}"
-                          WHERE BreezecardNum = "${req.body.cardNo}"`,
-                        () => {
-                          res.send({
-                            success: true
-                          });
-                        });
-                    } else {
-                      if (r3[0].BelongsTo !== req.body.username) {
-                        connection.query(
-                          `INSERT INTO Conflict VALUES ("${req.body.username}", "${req.body.cardNo}", NOW())`,
-                          () => {
-                            connection.query(
-                              `INSERT INTO Breezecard VALUES ("${Math.floor(Math.random() * Math.pow(10, 16))}", 0, "${username()}")`,
-                              (e7) => {
-                                if (e7) {
-                                  res.send({err: 'System error! Please try again later.'});
-                                }
-                                res.send({
-                                  success: true,
-                                  err: 'Card suspended!'
-                                });
-                              });
-                          });
+                      `UPDATE Breezecard
+                        SET BelongsTo = "${username}"
+                        WHERE BreezecardNum = "${breezecardNum}"`,
+                      (err) => {
+                        if (err) return res.status(500).send(err);
+                        return res.send();
                       }
+                    );
+                  } else {
+                    // There is a conflict
+                    if (results[0].BelongsTo !== username) {
+                      connection.query(
+                        `INSERT INTO Conflict VALUES ("${username}", "${breezecardNum}", NOW())`,
+                        (err) => {
+                          if (err) return res.status(500).send(err);
+                          connection.query(
+                            `INSERT INTO Breezecard VALUES ("${genCardNumber()}", 0, "${username}")`,
+                            (err) => {
+                              if (err) return res.status(500).send(err);
+                              return res.send();
+                            }
+                          );
+                        }
+                      );
                     }
                   }
-                });
-            }
-          });
-      });
-  });
+                }
+              }
+            );
+          }
+        }
+      );
+    }
+  );
+});
 
 module.exports = router;

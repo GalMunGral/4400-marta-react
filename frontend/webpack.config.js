@@ -1,42 +1,49 @@
-const webpack = require('webpack');
-const path = require('path');
+const path = require("path");
 
-module.exports = {
-    entry: [
-        './src/index'
-    ],
+module.exports = (env) => {
+  return {
+    mode: env,
+    entry: path.resolve(__dirname, "src/index.jsx"),
+    output: {
+      path: path.resolve(__dirname, "public"),
+      filename: "bundle.js",
+    },
     module: {
-        rules: [
-            { test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.s?css$/, loader: 'style-loader!css-loader!sass-loader' },
-            { test: /.woff$|.woff2$|.ttf$|.eot$|.svg$/, loader: 'url-loader'}
-        ],
+      rules: [
+        {
+          test: /\.jsx$/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-react"],
+              plugins: [
+                "@babel/plugin-proposal-optional-chaining",
+                "@babel/plugin-proposal-nullish-coalescing-operator",
+              ],
+            },
+          },
+        },
+        {
+          test: /\.svg$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        },
+      ],
     },
     resolve: {
-        extensions: ['.js', '.scss']
+      extensions: [".js", ".css", ".jsx"],
     },
-    output: {
-        path: path.join(__dirname, '/public'),
-        publicPath: '/',
-        filename: 'bundle.js'
-    },
-    devtool: 'cheap-eval-source-map',
     devServer: {
-        contentBase: './public',
-        hot: true
+      contentBase: path.resolve(__dirname, "public"),
+      historyApiFallback: true,
+      proxy: {
+        "/api": "http://localhost:8081",
+      },
     },
-    plugins: [
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        Popper: ['popper.js', 'default'],
-        // In case you imported plugins individually, you must also require them here:
-        Util: "exports-loader?Util!bootstrap/js/dist/util",
-        Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown"
-      })
-    ]
+    devtool: "source-map",
+  };
 };

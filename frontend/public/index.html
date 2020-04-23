@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>MARTA</title>
+    <style>
+      .selected {
+        background: lightblue;
+      }
+      #modal > div {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        margin: 200px 200px auto;
+        border: 1px solid black;
+        background-color: gray;
+      }
+    </style>
   </head>
   <body>
-    <div id='root'>
+    <div id="root"></div>
+    <div id="modal"></div>
+    <script src="/bundle.js"></script>
   </body>
-  <script src="/marta/bundle.js"></script>
 </html>
