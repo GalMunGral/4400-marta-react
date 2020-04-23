@@ -40,38 +40,47 @@ const TripHistory = () => {
   ];
 
   return (
-    <React.Fragment>
-      <header>TripHistory</header>
-      <form>
-        <div>
-          <label>Start Time</label>
-          <input
-            type="datetime-local"
-            onChange={(e) => setStartTime(new Date(e.target.value))}
-            value={getDOMTimeString(startTime)}
-          />
-        </div>
-        <div>
-          <label>End Time</label>
-          <input
-            type="datetime-local"
-            onChange={(e) => setEndTime(new Date(e.target.value))}
-            value={getDOMTimeString(endTime)}
-          />
-        </div>
-        <button
-          type="button"
-          onClick={() => {
-            setStartTime(new Date(0));
-            setEndTime(new Date());
-          }}
-        >
-          Reset
-        </button>
-      </form>
+    <div className="columns is-centered">
+      <div className="column is-two-thirds">
+        <header className="title is-1">Trip History</header>
+        <form className="box">
+          <div className="field is-grouped">
+            <label className="label">Start Time: &nbsp;</label>
+            <div className="control">
+              <input
+                className="input is-small"
+                type="datetime-local"
+                onChange={(e) => setStartTime(new Date(e.target.value))}
+                value={getDOMTimeString(startTime)}
+              />
+            </div>
+            <label className="label">End Time: &nbsp;</label>
+            <div className="control">
+              <input
+                className="input is-small"
+                type="datetime-local"
+                onChange={(e) => setEndTime(new Date(e.target.value))}
+                value={getDOMTimeString(endTime)}
+              />
+            </div>
+            <div className="control">
+              <button
+                className="button is-link is-small"
+                type="button"
+                onClick={() => {
+                  setStartTime(new Date(0));
+                  setEndTime(new Date());
+                }}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
 
-      <Table columns={columns} data={tripHistory} keyFn={(t) => t.Time} />
-    </React.Fragment>
+        <Table columns={columns} data={tripHistory} keyFn={(t) => t.Time} />
+      </div>
+    </div>
   );
 };
 

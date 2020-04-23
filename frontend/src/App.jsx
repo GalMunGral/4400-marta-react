@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
-  Link,
   Route,
   Redirect,
   Switch,
@@ -9,6 +8,7 @@ import {
 
 import { UserContext } from "./contexts";
 
+import NavBar from "./components/NavBar";
 import BreezeCards from "./pages/admin/BreezeCards";
 import FlowReport from "./pages/admin/FlowReport";
 import Trip from "./pages/passenger/Trip";
@@ -20,34 +20,30 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import Login from "./pages/auth/Login";
 import Registration from "./pages/auth/Registration";
 
-import logo from "../assets/logo.svg";
-
 const App = () => {
-  const userHook = useState(null);
+  const [user, setUser] = useState(null);
   return (
     <Router>
-      <div>
-        <nav>
-          <Link to="/">
-            <img src={logo} style={{ height: "25px" }} />
-          </Link>
-        </nav>
-        <UserContext.Provider value={userHook}>
-          <Switch>
-            <Route exact path="/" render={() => <Redirect to="/login" />} />
-            <Route path="/login" component={Login} />
-            <Route path="/registration" component={Registration} />
-            <Route path="/admin-dashboard" component={AdminDashboard} />
-            <Route exact path="/stations" component={Stations} />
-            <Route path="/suspended-cards" component={SuspendedCards} />
-            <Route path="/breeze-cards" component={BreezeCards} />
-            <Route path="/passenger-flow" component={FlowReport} />
-            <Route path="/my-trip" component={Trip} />
-            <Route path="/my-cards" component={ManageCards} />
-            <Route path="/trip-history" component={TripHistory} />
-          </Switch>
-        </UserContext.Provider>
-      </div>
+      <UserContext.Provider value={[user, setUser]}>
+        <NavBar />
+        <div>
+          <main>
+            <Switch>
+              <Route exact path="/" render={() => <Redirect to="/login" />} />
+              <Route path="/login" component={Login} />
+              <Route path="/registration" component={Registration} />
+              <Route path="/admin-dashboard" component={AdminDashboard} />
+              <Route exact path="/stations" component={Stations} />
+              <Route path="/suspended-cards" component={SuspendedCards} />
+              <Route path="/breeze-cards" component={BreezeCards} />
+              <Route path="/passenger-flow" component={FlowReport} />
+              <Route path="/my-trip" component={Trip} />
+              <Route path="/my-cards" component={ManageCards} />
+              <Route path="/trip-history" component={TripHistory} />
+            </Switch>
+          </main>
+        </div>
+      </UserContext.Provider>
     </Router>
   );
 };

@@ -31,33 +31,52 @@ const Login = () => {
   }
 
   return (
-    <React.Fragment>
-      <header>Login</header>
-      <form onSubmit={login}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div className="columns is-centered">
+      <div className="column is-one-third">
+        <div className="box">
+          <header className="title is-1">Login</header>
+          <form onSubmit={login}>
+            <div className="field">
+              <label className="label">Username</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Password</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="field is-grouped">
+              <div className="control">
+                <button className="button is-link">Login</button>
+              </div>
+              <div className="control">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={() => history.push("/registration")}
+                >
+                  Register
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button>Login</button>
-        <button type="button" onClick={() => history.push("/registration")}>
-          Register
-        </button>
-      </form>
-    </React.Fragment>
+      </div>
+    </div>
   );
 };
 export default Login;

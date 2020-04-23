@@ -36,31 +36,41 @@ const FlowReport = () => {
   ];
 
   return (
-    <React.Fragment>
-      <header>Passenger Flow Report</header>
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <header className="title is-1">Passenger Flow Report</header>
 
-      <form>
-        <div>
-          <label>Start Time</label>
-          <input
-            type="datetime-local"
-            onChange={(e) => setStartTime(new Date(e.target.value))}
-            value={getDOMTimeString(startTime)}
-          />
-        </div>
-        <div>
-          <label>End Time</label>
-          <input
-            type="datetime-local"
-            onChange={(e) => setEndTime(new Date(e.target.value))}
-            value={getDOMTimeString(endTime)}
-          />
-        </div>
-        <button onClick={resetFilter}>Reset</button>
-      </form>
+        <form className="box">
+          <div className="field is-grouped">
+            <label className="label">Start:&nbsp;</label>
+            <div className="control">
+              <input
+                className="input is-small"
+                type="datetime-local"
+                onChange={(e) => setStartTime(new Date(e.target.value))}
+                value={getDOMTimeString(startTime)}
+              />
+            </div>
+            <label className="label">End:&nbsp;</label>
+            <div className="control">
+              <input
+                className="input is-small"
+                type="datetime-local"
+                onChange={(e) => setEndTime(new Date(e.target.value))}
+                value={getDOMTimeString(endTime)}
+              />
+            </div>
+            <div className="control">
+              <button className="button is-link is-small" onClick={resetFilter}>
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
 
-      <Table columns={columns} data={reports} keyFn={(r) => r.Name} />
-    </React.Fragment>
+        <Table columns={columns} data={reports} keyFn={(r) => r.Name} />
+      </div>
+    </div>
   );
 };
 

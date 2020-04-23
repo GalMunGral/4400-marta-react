@@ -1,0 +1,10 @@
+main {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+}
+.selected {
+  background: lightblue !important;
+}
+.modal-content {
+  max-width: 25rem;
+}

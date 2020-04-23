@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts";
 import { Redirect, useHistory } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const [user, setUser] = useContext(UserContext);
-  const history = useHistory();
+  const [user] = useContext(UserContext);
 
   const routes = [
     { name: "Station Management", path: "/stations" },
@@ -16,17 +16,27 @@ const AdminDashboard = () => {
   if (!user) return <Redirect to="/login" />;
 
   return (
-    <React.Fragment>
-      <div>Administrator</div>
-      <div>
-        {routes.map((route) => (
-          <button key={route.path} onClick={() => history.push(route.path)}>
-            {route.name}
-          </button>
-        ))}
-        <button onClick={() => setUser(null)}>Logout</button>
+    <div className="columns is-centered">
+      <div className="colums is-one-third">
+        <nav className="panel">
+          <div className="panel-heading is-marginless has-text-centered title is-1">
+            Administrator
+          </div>
+          {routes.map((route) => (
+            <Link
+              to={route.path}
+              className="panel-block is-active"
+              key={route.path}
+            >
+              <span className="panel-icon">
+                <i className="fas fa-book" aria-hidden="true"></i>
+              </span>
+              {route.name}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

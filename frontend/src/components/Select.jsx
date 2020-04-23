@@ -9,21 +9,18 @@ const Select = ({
   toString,
   keyFn,
 }) => (
-  <div>
-    <label htmlFor={`select-${label}`}>{label}</label>
-    <select
-      id={`select-${label}`}
-      value={value}
-      disabled={disabled}
-      onChange={onChange}
-    >
-      <option>nothing</option>
-      {options.map((option) => (
-        <option key={keyFn(option)} value={keyFn(option)}>
-          {toString(option)}
-        </option>
-      ))}
-    </select>
+  <div className="field">
+    <label className="label">{label}</label>
+    <div className="select">
+      <select value={value} disabled={disabled} onChange={onChange}>
+        <option>Please select</option>
+        {options.map((option) => (
+          <option key={keyFn(option)} value={keyFn(option)}>
+            {toString(option)}
+          </option>
+        ))}
+      </select>
+    </div>
   </div>
 );
 

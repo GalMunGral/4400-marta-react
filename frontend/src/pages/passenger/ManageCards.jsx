@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
 import axios from "axios";
@@ -28,6 +29,14 @@ const ManageCards = () => {
     loadCards();
   }, [user]);
 
+  useEffect(() => {
+    if (selectedCard) {
+      setSelectedCard(
+        cards.find((c) => c.BreezecardNum === selectedCard.BreezecardNum)
+      );
+    }
+  }, [cards]);
+
   const addCard = async () => {
     if (!/^[0-9]{16}$/.test(newCardNumber)) {
       alert("invalid card number");
@@ -52,7 +61,6 @@ const ManageCards = () => {
         Number: selectedCard.BreezecardNum,
         Value: value,
       });
-      setSelectedCard(null);
       setValue(0);
       loadCards();
     } catch (e) {
@@ -72,42 +80,60 @@ const ManageCards = () => {
     }
   };
 
+  if (!user) return <Redirect to="/login" />;
+
   return (
-    <React.Fragment>
-      <header>Manage Cards</header>
-      <Table
-        columns={columns}
-        data={cards}
-        keyFn={(c) => c.BreezecardNum}
-        selected={selectedCard}
-        selectFn={setSelectedCard}
-        actionEnabled
-        actionName="Remove"
-        actionFn={removeCard}
-      />
-      <input
-        placeholder="New Card Number"
-        value={newCardNumber}
-        onChange={(e) => setNewCardNumber(e.target.value)}
-      />
-      <button type="button" onClick={addCard}>
-        Add Card
-      </button>
-      <form>
-        <div>
-          <label>Value</label>
-          <input
-            type="number"
-            placeholder="0.00"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
-      </form>
-      <button type="button" onClick={addValue}>
-        Add Value
-      </button>
-    </React.Fragment>
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <header className="title is-1">Manage Cards</header>
+        <section className="box">
+          <div className="field is-grouped">
+            <div className="control">
+              <input
+                className="input is-small"
+                placeholder="New Card Number"
+                value={newCardNumber}
+                onChange={(e) => setNewCardNumber(e.target.value)}
+              />
+            </div>
+            <div className="control">
+              <button
+                className="button is-link is-small"
+                type="button"
+                onClick={addCard}
+              >
+                Add Card
+              </button>
+            </div>
+            <div className="control">
+              <input
+                className="input is-small"
+                type="number"
+                placeholder="0.00"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
+            </div>
+            <div className="control">
+              <button className="button is-link is-small" onClick={addValue}>
+                Add Value
+              </button>
+            </div>
+          </div>
+        </section>
+        <Table
+          className="column"
+          columns={columns}
+          data={cards}
+          keyFn={(c) => c.BreezecardNum}
+          selected={selectedCard}
+          selectFn={setSelectedCard}
+          actionEnabled
+          actionName="Remove"
+          actionFn={removeCard}
+        />
+      </div>
+    </div>
   );
 };
 export default ManageCards;

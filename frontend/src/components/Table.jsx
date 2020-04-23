@@ -18,13 +18,18 @@ const Table = ({
 
   const ActionButton = (item) =>
     actionEnabled ? (
-      <td>
-        <button onClick={() => actionFn(item)}>{actionName}</button>
+      <td className="has-text-centered">
+        <button
+          className="button is-danger is-small is-light"
+          onClick={() => actionFn(item)}
+        >
+          {actionName}
+        </button>
       </td>
     ) : null;
 
   return (
-    <table>
+    <table className="table is-fullwidth is-striped">
       <thead>
         <tr>
           {columns.map((col, i) => (
@@ -44,6 +49,7 @@ const Table = ({
               {col.displayName}
             </th>
           ))}
+          {actionEnabled ? <th></th> : null}
         </tr>
       </thead>
       <tbody>
@@ -54,9 +60,9 @@ const Table = ({
             onClick={() => selectFn(item)}
           >
             {columns.map((col, i) => (
-              <td key={i}>{item[col.name]}</td>
+              <td key={i}>{String(item[col.name]).slice(0, 16)}</td>
             ))}
-            <ActionButton item={item} />
+            {actionEnabled ? <ActionButton item={item} /> : null}
           </tr>
         ))}
       </tbody>

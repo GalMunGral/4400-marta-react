@@ -3,7 +3,7 @@ import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
 import axios from "axios";
 import { useHistory } from "react-router";
-import StationDetail from "./StationDetail";
+import StationDetail from "../../components/StationDetail";
 
 const Stations = () => {
   const [user] = useContext(UserContext);
@@ -13,10 +13,9 @@ const Stations = () => {
 
   useEffect(() => {
     loadStations();
-  }, [user]);
+  }, []);
 
   const loadStations = async () => {
-    if (!user) return;
     const { data } = await axios.get("/api/stations");
     const { results } = data;
     if (results) setStations(results);
@@ -42,23 +41,30 @@ const Stations = () => {
   ];
 
   return (
-    <React.Fragment>
-      <header>Station Listing</header>
-      <Table
-        columns={columns}
-        data={stations}
-        keyFn={(s) => s.StopID}
-        selectFn={(s) => setSelected(s)}
-      />
-      <button onClick={initStation}>Create New Station</button>
-      {selected ? (
-        <StationDetail
-          selected={selected}
-          setSelected={setSelected}
-          loadStations={loadStations}
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <header className="title is-1">All Stations</header>
+        <button
+          className="button is-link is-light is-pulled-right"
+          onClick={initStation}
+        >
+          Create New Station
+        </button>
+        <Table
+          columns={columns}
+          data={stations}
+          keyFn={(s) => s.StopID}
+          selectFn={(s) => setSelected(s)}
         />
-      ) : null}
-    </React.Fragment>
+        {selected ? (
+          <StationDetail
+            selected={selected}
+            setSelected={setSelected}
+            loadStations={loadStations}
+          />
+        ) : null}
+      </div>
+    </div>
   );
 };
 

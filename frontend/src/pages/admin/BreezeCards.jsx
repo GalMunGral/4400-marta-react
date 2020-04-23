@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Table from "../../components/Table";
+import CardDetail from "../../components/CardDetail";
 import useFilter from "../../hooks/BreezeCardFilter";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -10,8 +11,6 @@ let filterParams = {};
 const BreezeCards = () => {
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [newValue, setNewValue] = useState(0);
-  const [newOwner, setNewOwner] = useState("");
 
   const [filter, { username, breezecardNum, minValue, maxValue }] = useFilter();
   filterParams = { username, breezecardNum, minValue, maxValue };
@@ -38,24 +37,6 @@ const BreezeCards = () => {
     }
   }, [cards]);
 
-  const updateCardValue = async () => {
-    await axios.post("/api/admin/update-card-value", {
-      breezecardNum: selected.BreezecardNum,
-      newValue,
-    });
-    await fetchCards();
-    setNewValue(0);
-  };
-
-  const updateCardOwner = async () => {
-    await axios.post("/api/admin/update-card-owner", {
-      breezecardNum: selected.BreezecardNum,
-      newOwner,
-    });
-    await fetchCards();
-    setNewOwner("");
-  };
-
   const columns = [
     { name: "BreezecardNum", displayName: "Card Number" },
     { name: "Value", displayName: "Value" },
@@ -63,41 +44,27 @@ const BreezeCards = () => {
   ];
 
   return (
-    <React.Fragment>
-      <header>Manage Breeze Cards</header>
-
-      {filter}
-
-      <Table
-        columns={columns}
-        data={cards}
-        keyFn={(c) => c.BreezecardNum}
-        selected={selected}
-        selectFn={setSelected}
-      />
-
-      <form>
-        <input
-          type="number"
-          value={newValue}
-          onChange={(e) => setNewValue(e.target.value)}
+    <div className="columns is-centered">
+      <div className="column is-half">
+        <header className="title is-1">Manage Breeze Cards</header>
+        {filter}
+        <Table
+          columns={columns}
+          data={cards}
+          keyFn={(c) => c.BreezecardNum}
+          selected={selected}
+          selectFn={setSelected}
         />
-        <input
-          type="text"
-          value={newOwner}
-          onChange={(e) => setNewOwner(e.target.value)}
-        />
-      </form>
-
-      <div>
-        <button onClick={updateCardValue} disabled={!newValue}>
-          Set Value of Selected Card
-        </button>
-        <button onClick={updateCardOwner} disabled={!newOwner}>
-          Transfer Selected Card
-        </button>
       </div>
-    </React.Fragment>
+
+      {selected ? (
+        <CardDetail
+          selected={selected}
+          setSelected={setSelected}
+          fetchCards={fetchCards}
+        />
+      ) : null}
+    </div>
   );
 };
 
