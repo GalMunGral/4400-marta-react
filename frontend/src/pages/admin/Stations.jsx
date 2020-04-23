@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
 import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
-import axios from "axios";
-import { useHistory } from "react-router";
 import StationDetail from "../../components/StationDetail";
 
 const Stations = () => {
   const [user] = useContext(UserContext);
   const [stations, setStations] = useState([]);
   const [selected, setSelected] = useState(null);
-  const history = useHistory();
 
   useEffect(() => {
     loadStations();
@@ -17,8 +16,7 @@ const Stations = () => {
 
   const loadStations = async () => {
     const { data } = await axios.get("/api/stations");
-    const { results } = data;
-    if (results) setStations(results);
+    setStations(data);
   };
 
   const initStation = () => {
@@ -39,6 +37,8 @@ const Stations = () => {
     { name: "EnterFare", displayName: "Fare" },
     { name: "ClosedStatus", displayName: "Status" },
   ];
+
+  if (!user) return <Redirect to="/login" />;
 
   return (
     <div className="columns is-centered">

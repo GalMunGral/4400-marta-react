@@ -1,30 +1,26 @@
-const express = require("express");
-const mysql = require("mysql2");
-const md5 = require("md5");
 const config = require("../db.config");
+const connection = require("mysql2").createConnection(config);
+const router = require("express").Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(config);
-
-router.route("/my-cards").get((req, res) => {
+router.get("/my-cards", (req, res) => {
   connection.query(
     `SELECT BreezecardNum, Value FROM Breezecard
       WHERE BelongsTo = "${req.query.user}"`,
     (err, results) => {
       if (err) return res.status(500).send(err);
-      res.send({
-        results,
-      });
+      res.send(results);
     }
   );
 });
 
-router.route("/complete-trip").post((req, res) => {
+router.post("/complete-trip", (req, res) => {
   const { breezecardNum, currentFare, startTime, startID, endID } = req.body;
+
   connection.query(
     `SELECT * FROM Breezecard WHERE BreezecardNum = ${breezecardNum}`,
     (err, results) => {
       if (err) res.status(500).send(err);
+
       if (results[0].Value - req.body.currentFare >= 0) {
         connection.query(
           `INSERT INTO Trip VALUES (${currentFare}, "${startTime}", "${breezecardNum}", "${startID}", "${endID}")`,
@@ -36,24 +32,25 @@ router.route("/complete-trip").post((req, res) => {
                 WHERE BreezecardNum = ${breezecardNum}`,
               (err) => {
                 if (err) res.status(500).send(err);
-                res.send();
+                return res.send();
               }
             );
           }
         );
       } else {
-        res.status(500).send({ err: "Insufficient fund!" });
+        return res.status(500).send({ err: "Insufficient fund!" });
       }
     }
   );
 });
 
-router.route("/new-card").post((req, res) => {
+router.post("/new-card", (req, res) => {
   const { newNumber, username } = req.body;
   connection.query(
     `SELECT * FROM Breezecard WHERE BreezecardNum = "${newNumber}"`,
     (err, results) => {
       if (err) return res.status(500).send(err);
+
       if (results.length === 0) {
         connection.query(
           `INSERT INTO Breezecard VALUES ("${newNumber}", 0, "${username}")`,
@@ -63,6 +60,7 @@ router.route("/new-card").post((req, res) => {
           }
         );
       } else {
+        // Unclaimed card
         if (results[0].BelongsTo === null) {
           connection.query(
             `UPDATE Breezecard
@@ -74,6 +72,7 @@ router.route("/new-card").post((req, res) => {
             }
           );
         } else {
+          // There is a conflict
           if (results[0].BelongsTo !== username) {
             connection.query(
               `INSERT INTO Conflict VALUES ("${username}", "${newNumber}", NOW())`,
@@ -82,8 +81,8 @@ router.route("/new-card").post((req, res) => {
               }
             );
           } else {
-            return res.status(500).send({
-              err: "You already own this card!",
+            return res.send({
+              warn: "You already own this card!",
             });
           }
         }
@@ -92,39 +91,39 @@ router.route("/new-card").post((req, res) => {
   );
 });
 
-router.route("/add-value").post((req, res) => {
+router.post("/add-value", (req, res) => {
   connection.query(
     `UPDATE Breezecard
-      SET Value = Value + ${req.body.Value}
-      WHERE BreezecardNum = "${req.body.Number}"`,
+      SET Value = Value + ${req.body.value}
+      WHERE BreezecardNum = "${req.body.breezecardNum}"`,
     (err) => {
-      if (err) res.status(500).send(err);
-      res.send();
+      if (err) return res.status(500).send(err);
+      return res.send();
     }
   );
 });
 
-router.route("/remove-card").post((req, res) => {
+router.post("/remove-card", (req, res) => {
   connection.query(
     `UPDATE Breezecard
       SET BelongsTo = NULL
-      WHERE "${req.body.Username}" IN (
-        SELECT * FROM ((
-          SELECT BelongsTo
-          FROM Breezecard
-          GROUP BY BelongsTo
-          HAVING COUNT(*) > 1) AS TGT
+      WHERE "${req.body.username}" IN (
+        SELECT * FROM (
+          (SELECT BelongsTo
+            FROM Breezecard
+            GROUP BY BelongsTo
+            HAVING COUNT(*) > 1) AS TGT
         )
       ) AND
-      BreezecardNum = "${req.body.Number}"`,
+      BreezecardNum = "${req.body.breezecardNum}"`,
     (err) => {
-      if (err) res.status(500).send(err);
-      res.send();
+      if (err) return res.status(500).send(err);
+      return res.send();
     }
   );
 });
 
-router.route("/trip-history").get((req, res) => {
+router.get("/trip-history", (req, res) => {
   connection.query(
     `SELECT T.StartTime AS Time, SS.Name AS SName, DS.Name AS DName, T.Tripfare AS Fare, T.BreezecardNum AS BNumber
       FROM Trip AS T, Station AS SS, Station AS DS, Passenger AS P, Breezecard AS B
@@ -137,9 +136,7 @@ router.route("/trip-history").get((req, res) => {
       AND T.StartTime <= "${req.query.end}"
       ORDER BY Time ${req.query.order}`,
     (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
+      if (err) return res.status(500).send(err);
       return res.send(results);
     }
   );

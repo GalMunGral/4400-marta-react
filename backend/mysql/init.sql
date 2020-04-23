@@ -1,9 +1,3 @@
--- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
--- FLUSH PRIVILEGES;
--- Fixes 'Client does not support authentication protocol' error
-
--- CREATE DATABASE IF NOT EXISTS marta;
--- USE marta;
 CREATE DATABASE IF NOT EXISTS marta2;
 USE marta2;
 
@@ -85,6 +79,7 @@ CREATE TABLE BusStationIntersection(
 	FOREIGN KEY (StopID) REFERENCES Station(StopID)
 		ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
+
 INSERT INTO User VALUES ("admin","0192023a7bbd73250516f069df18b500",1);
 INSERT INTO User VALUES ("kparker","09e5af83d93166c76b351d52a8fe69b5",1);
 INSERT INTO User VALUES ("eoneil","6b11eaa6bbd19c856b59688fae281d56",1);
@@ -96,9 +91,6 @@ INSERT INTO User VALUES ("riyoy1996","7039e7594e4f4fd6789e9810150e64b9",0);
 INSERT INTO User VALUES ("kellis","370133f7117dc65e277d6dbb858450c1",0);
 INSERT INTO User VALUES ("ashton.woods","27465020c9ea11fc41fac2af1daeba5f",0);
 INSERT INTO User VALUES ("adinozzo","c67e443eaa780debf5ee2d71a2a7dc39",0);
-
-
-
 INSERT INTO Passenger VALUES ("commuter14","LeonBarnes@superrito.com");
 INSERT INTO Passenger VALUES ("busrider73","lena.wexler@dayrep.com");
 INSERT INTO Passenger VALUES ("sandrapatel","sandra74@jourrapide.com");

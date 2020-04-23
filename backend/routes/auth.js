@@ -1,16 +1,13 @@
 const md5 = require("md5");
-const express = require("express");
-const mysql = require("mysql2");
 const config = require("../db.config");
+const connection = require("mysql2").createConnection(config);
+const router = require("express").Router();
 
-const router = express.Router();
-const connection = mysql.createConnection(config);
-
-router.route("/login").post((req, res) => {
+router.post("/login", (req, res) => {
   connection.query(
     `SELECT * FROM User
-        WHERE Username = "${req.body.username}"
-        AND Password = "${md5(req.body.password)}"`,
+      WHERE Username = "${req.body.username}"
+      AND Password = "${md5(req.body.password)}"`,
     (err, results) => {
       if (err || results.length === 0) return res.status(500).send(err);
       return res.send({
@@ -21,9 +18,11 @@ router.route("/login").post((req, res) => {
   );
 });
 
-router.route("/register").post((req, res) => {
+router.post("/register", (req, res) => {
   const { username, email, password, breezecardNum } = req.body;
+
   const genCardNumber = () => Math.floor(Math.random() * Math.pow(10, 16));
+
   connection.query(
     `INSERT INTO User VALUES ("${username}", "${md5(password)}", 0)`,
     (err) => {
@@ -34,7 +33,7 @@ router.route("/register").post((req, res) => {
           if (err) return res.status(500).send(err);
 
           if (!breezecardNum) {
-            // Assign new card
+            // Issue a new card
             connection.query(
               `INSERT INTO Breezecard VALUES ("${genCardNumber()}", 0, "${username}")`,
               (err) => {

@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
 import Select from "../../components/Select";
 import { UserContext } from "../../contexts";
-import axios from "axios";
 
-const Trip = ({ history }) => {
-  const [user, setUser] = useContext(UserContext);
+const Trip = () => {
+  const [user] = useContext(UserContext);
   const [cards, setCards] = useState([]);
   const [card, setCard] = useState(null);
   const [stations, setStations] = useState([]);
@@ -26,21 +26,17 @@ const Trip = ({ history }) => {
 
   const loadCards = async () => {
     if (!user) return;
-    const { data } = await axios.get("api/passenger/my-cards", {
+    const { data } = await axios.get("/api/passenger/my-cards", {
       params: { user: user.username },
     });
-    const { results, err } = data;
-    if (results) setCards(results);
+    setCards(data);
   };
 
   const loadStations = async () => {
     if (!user) return;
-    const { data } = await axios.get("api/stations");
-    const { results, err } = data;
-    if (results) setStations(results);
+    const { data } = await axios.get("/api/stations");
+    setStations(data);
   };
-
-  if (!user) return <Redirect to="/login" />;
 
   const startTrip = () => {
     if (+card.Value >= +startStation.EnterFare) {

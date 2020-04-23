@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "../../contexts";
 import { Redirect } from "react-router";
 import axios from "axios";
+import { UserContext } from "../../contexts";
 
 const Registraion = () => {
   const [user, setUser] = useContext(UserContext);

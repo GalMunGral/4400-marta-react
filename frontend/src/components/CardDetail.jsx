@@ -21,12 +21,16 @@ const StationDetail = ({ selected: card, setSelected, fetchCards }) => {
   };
 
   const updateCardOwner = async () => {
-    await axios.post("/api/admin/update-card-owner", {
-      breezecardNum: card.BreezecardNum,
-      newOwner,
-    });
-    await fetchCards();
-    setSelected(null);
+    try {
+      await axios.post("/api/admin/update-card-owner", {
+        breezecardNum: card.BreezecardNum,
+        newOwner,
+      });
+      await fetchCards();
+      setSelected(null);
+    } catch (e) {
+      alert("Failed to update card owner");
+    }
   };
 
   return ReactDOM.createPortal(
@@ -55,7 +59,7 @@ const StationDetail = ({ selected: card, setSelected, fetchCards }) => {
             <input
               className="input"
               type="text"
-              value={newOwner}
+              value={newOwner || ""}
               onChange={(e) => setNewOwner(e.target.value)}
             />
           </div>

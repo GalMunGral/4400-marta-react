@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
+import { debounce } from "lodash";
 import Table from "../../components/Table";
 import CardDetail from "../../components/CardDetail";
 import useFilter from "../../hooks/BreezeCardFilter";
-import axios from "axios";
-import { debounce } from "lodash";
+import { UserContext } from "../../contexts";
 
 // This must live outside `BreezeCards` so that it could be updated by later invocations.
 let filterParams = {};
 
 const BreezeCards = () => {
+  const [user] = useContext(UserContext);
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState(null);
 
@@ -42,6 +45,8 @@ const BreezeCards = () => {
     { name: "Value", displayName: "Value" },
     { name: "BelongsTo", displayName: "Username" },
   ];
+
+  if (!user) return <Redirect to="/login" />;
 
   return (
     <div className="columns is-centered">

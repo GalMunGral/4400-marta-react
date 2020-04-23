@@ -1,20 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const mysql = require("mysql2");
 const config = require("../db.config");
+const connection = require("mysql2").createConnection(config);
+const router = require("express").Router();
 
-const connection = mysql.createConnection(config);
-
-router.route("/").get((req, res) => {
+router.get("/", (req, res) => {
   connection.query(
     `SELECT Name, StopID, EnterFare, ClosedStatus, IsTrain, Intersection
-        FROM Station NATURAL LEFT OUTER JOIN BusStationIntersection
-        ORDER BY ${req.query.attr || "StopID"} ${
-      req.query.asc === "true" ? "ASC" : "DESC"
-    }`,
+      FROM Station NATURAL LEFT OUTER JOIN BusStationIntersection
+      ORDER BY StopID ASC`,
     (err, results) => {
-      if (err) return res.status(500).end({ err });
-      return res.send({ results });
+      if (err) return res.status(500).end(err);
+      return res.send(results);
     }
   );
 });

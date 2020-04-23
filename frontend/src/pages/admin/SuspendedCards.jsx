@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Table from "../../components/Table";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
+import Table from "../../components/Table";
+import { UserContext } from "../../contexts";
 
 const SuspendedCards = () => {
+  const [user] = useContext(UserContext);
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState(null);
 
@@ -30,6 +33,8 @@ const SuspendedCards = () => {
     { name: "DateTime", displayName: "Suspension Date" },
     { name: "BelongsTo", displayName: "Previous Owner" },
   ];
+
+  if (!user) return <Redirect to="/login" />;
 
   return (
     <div className="columns is-centered">

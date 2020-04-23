@@ -67,15 +67,7 @@ const useFilter = () => {
     </form>
   );
 
-  return [
-    filter,
-    {
-      username,
-      breezecardNum,
-      minValue,
-      maxValue,
-    },
-  ];
+  return [filter, { username, breezecardNum, minValue, maxValue }];
 };
 
 export default useFilter;

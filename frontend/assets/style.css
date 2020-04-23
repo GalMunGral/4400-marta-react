@@ -3,7 +3,7 @@ main {
   margin-bottom: 8rem;
 }
 .selected {
-  background: lightblue !important;
+  background: #e3ecfa !important;
 }
 .modal-content {
   max-width: 25rem;

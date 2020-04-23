@@ -20,20 +20,20 @@ ORDER BY ($column) ASC
 
 --FLOW REPORT
 SELECT A.Name AS Name, InFlow, IFNULL(OutFlow, 0) AS OutFlow, (InFlow - IFNULL(OutFlow, 0)) AS Flow, A.Revenue AS Revenue
-FROM
-(SELECT S.StopID AS SID, S.Name AS Name, COUNT(*) AS Inflow, SUM(T.Tripfare) AS Revenue, T.StartTime
-FROM Station AS S, Trip AS T
-WHERE S.StopID = T.StartsAt AND
-T.StartTime >= ($startTimeLB) AND
-T.StartTime <= ($startTimeUB)
-GROUP BY T.StartsAt) AS A
-LEFT OUTER JOIN
-(SELECT S.StopID AS SID, S.Name AS Name, COUNT(*) AS Outflow, SUM(T.Tripfare) AS Revenue, T.StartTime
-FROM Station AS S, Trip AS T
-WHERE S.StopID = T.EndsAt
-T.StartTime >= ($startTimeLB) AND
-T.StartTime <= ($startTimeUB)
-GROUP BY T.EndsAt) AS B
+FROM (
+  SELECT S.StopID AS SID, S.Name AS Name, COUNT(*) AS Inflow, SUM(T.Tripfare) AS Revenue, T.StartTime
+  FROM Station AS S, Trip AS T
+  WHERE S.StopID = T.StartsAt AND
+  T.StartTime >= ($startTimeLB) AND
+  T.StartTime <= ($startTimeUB)
+  GROUP BY T.StartsAt) AS A
+LEFT OUTER JOIN (
+  SELECT S.StopID AS SID, S.Name AS Name, COUNT(*) AS Outflow, SUM(T.Tripfare) AS Revenue, T.StartTime
+  FROM Station AS S, Trip AS T
+  WHERE S.StopID = T.EndsAt AND
+  T.StartTime >= ($startTimeLB) AND
+  T.StartTime <= ($startTimeUB)
+  GROUP BY T.EndsAt) AS B
 ON A.SID = B.SID
 ORDER BY ($column) ASC
 
@@ -142,24 +142,24 @@ WHERE BreezecardNum = ($cardNo);
 UPDATE Breezecard
 SET BelongsTo = NULL
 WHERE ($username) IN (
-        SELECT *
-        FROM (
-            SELECT BelongsTo
-            FROM Breezecard
-            GROUP BY BelongsTo
-            HAVING COUNT(*) > 1
-        ) AS TGT
-    )
-    AND BreezecardNum = ($cardNo),
+  SELECT *
+  FROM (
+    SELECT BelongsTo
+    FROM Breezecard
+    GROUP BY BelongsTo
+    HAVING COUNT(*) > 1
+  ) AS TGT
+)
+AND BreezecardNum = ($cardNo),
 
 --fetch trip history
 SELECT T.StartTime AS Time, SS.Name AS SName, DS.Name AS DName, T.Tripfare AS Fare, T.BreezecardNum AS BNumber
 FROM Trip AS T, Station AS SS, Station AS DS, Passenger AS P, Breezecard AS B
 WHERE T.StartsAt = SS.StopID
-    AND T.EndsAt = DS.StopID
-    AND T.BreezecardNum = B.BreezecardNum
-    AND B.BelongsTo = P.Username
-    AND P.Username = ($username)
-    AND T.StartTime >= ($startTime)
-    AND T.StartTime <= ($endTime)
+AND T.EndsAt = DS.StopID
+AND T.BreezecardNum = B.BreezecardNum
+AND B.BelongsTo = P.Username
+AND P.Username = ($username)
+AND T.StartTime >= ($startTime)
+AND T.StartTime <= ($endTime)
 ORDER BY Time ASC;

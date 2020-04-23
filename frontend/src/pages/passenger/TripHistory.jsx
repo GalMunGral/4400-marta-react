@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import Table from "../../components/Table";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
+import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
 import { getDOMTimeString, getSQLTimeString } from "../../utilities";
 
@@ -38,6 +39,8 @@ const TripHistory = () => {
     { name: "Fare", displayName: "Fare Paid" },
     { name: "BNumber", displayName: "Card#" },
   ];
+
+  if (!user) return <Redirect to="/login" />;
 
   return (
     <div className="columns is-centered">

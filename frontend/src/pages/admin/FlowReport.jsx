@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Table from "../../components/Table";
-import { getDOMTimeString, getSQLTimeString } from "../../utilities";
+import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
+import Table from "../../components/Table";
+import { UserContext } from "../../contexts";
+import { getDOMTimeString, getSQLTimeString } from "../../utilities";
 
 const FlowReport = () => {
+  const [user] = useContext(UserContext);
   const [reports, setReports] = useState([]);
   const [startTime, setStartTime] = useState(new Date(0));
   const [endTime, setEndTime] = useState(new Date());
@@ -34,6 +37,8 @@ const FlowReport = () => {
     { name: "Flow", displayName: "Flow" },
     { name: "Revenue", displayName: "Revenue" },
   ];
+
+  if (!user) return <Redirect to="/login" />;
 
   return (
     <div className="columns is-centered">

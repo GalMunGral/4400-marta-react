@@ -16,7 +16,7 @@ const Table = ({
     setMyData(data);
   }, [data]);
 
-  const ActionButton = (item) =>
+  const ActionButton = ({ item }) =>
     actionEnabled ? (
       <td className="has-text-centered">
         <button

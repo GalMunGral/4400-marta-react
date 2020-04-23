@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 import Table from "../../components/Table";
 import { UserContext } from "../../contexts";
-import axios from "axios";
 
 const ManageCards = () => {
   const [user] = useContext(UserContext);
@@ -21,8 +21,7 @@ const ManageCards = () => {
     const { data } = await axios.get("api/passenger/my-cards", {
       params: { user: user.username },
     });
-    const { results, err } = data;
-    if (results) setCards(results);
+    setCards(data);
   };
 
   useEffect(() => {
@@ -58,8 +57,8 @@ const ManageCards = () => {
   const addValue = async () => {
     try {
       await axios.post("/api/passenger/add-value", {
-        Number: selectedCard.BreezecardNum,
-        Value: value,
+        breezecardNum: selectedCard.BreezecardNum,
+        value,
       });
       setValue(0);
       loadCards();
@@ -68,11 +67,11 @@ const ManageCards = () => {
     }
   };
 
-  const removeCard = async () => {
+  const removeCard = async (card) => {
     try {
       await axios.post("/api/passenger/remove-card", {
-        Username: user.username,
-        Number: selectedCard,
+        username: user.username,
+        breezecardNum: card.BreezecardNum,
       });
       loadCards();
     } catch (e) {

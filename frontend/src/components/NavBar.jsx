@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import logo from "../../assets/logo.svg";
 import { UserContext } from "../contexts";
+
+import logo from "../../assets/logo.svg";
 
 const NavBar = () => {
   const [user, setUser] = useContext(UserContext);
   const history = useHistory();
+
   return (
     <nav
       className="navbar is-fixed-top is-light"
