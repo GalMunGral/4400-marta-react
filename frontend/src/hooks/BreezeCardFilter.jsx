@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import {
+  GroupedInput,
+  GroupedButton,
+  GroupedFormField,
+} from "../components/common/GroupedFormField";
 
 const useFilter = () => {
   const [username, setUsername] = useState("");
@@ -13,61 +18,49 @@ const useFilter = () => {
     setMaxValue(10 ** 6);
   };
 
-  const filter = (
+  const filterElement = (
     <form className="box">
-      <div className="field is-grouped">
-        <label className="label">Owner:&nbsp;</label>
-        <div className="control">
-          <input
-            className="input is-small"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="field is-grouped">
-        <label className="label">Card Number:&nbsp;</label>
-        <div className="control">
-          <input
-            className="input is-small"
-            value={breezecardNum}
-            onChange={(e) => setbreezecardNum(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="field is-grouped">
-        <label className="label">Value between&nbsp;</label>
-        <div className="control">
-          <input
-            className="input is-small"
-            type="number"
-            value={minValue}
-            onChange={(e) => setMinValue(e.target.value)}
-          />
-        </div>
-        <label className="label">and&nbsp;</label>
-        <div className="control">
-          <input
-            className="input is-small"
-            type="number"
-            value={maxValue}
-            onChange={(e) => setMaxValue(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="control">
-        <button
-          className="button is-link is-small"
-          type="button"
-          onClick={resetFilter}
+      <GroupedFormField>
+        <GroupedInput
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         >
+          Owner
+        </GroupedInput>
+      </GroupedFormField>
+
+      <GroupedFormField>
+        <GroupedInput
+          value={breezecardNum}
+          onChange={(e) => setbreezecardNum(e.target.value)}
+        >
+          Card Number
+        </GroupedInput>
+      </GroupedFormField>
+
+      <GroupedFormField>
+        <GroupedInput
+          type="number"
+          value={minValue}
+          onChange={(e) => setMinValue(e.target.value)}
+        >
+          Value between
+        </GroupedInput>
+        <GroupedInput
+          type="number"
+          value={maxValue}
+          onChange={(e) => setMaxValue(e.target.value)}
+        >
+          and
+        </GroupedInput>
+        <GroupedButton isLink onClick={resetFilter} isSmall>
           Reset
-        </button>
-      </div>
+        </GroupedButton>
+      </GroupedFormField>
     </form>
   );
 
-  return [filter, { username, breezecardNum, minValue, maxValue }];
+  return [filterElement, { username, breezecardNum, minValue, maxValue }];
 };
 
 export default useFilter;

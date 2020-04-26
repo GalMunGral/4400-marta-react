@@ -1,7 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router";
+import { Redirect } from "@reach/router";
 import axios from "axios";
 import { UserContext } from "../../contexts";
+import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
+import Container from "../../components/common/Container";
+import { Radio, Option } from "../../components/common/Radio";
 
 const Registraion = () => {
   const [user, setUser] = useContext(UserContext);
@@ -30,99 +34,65 @@ const Registraion = () => {
     });
   };
 
-  if (user) return <Redirect to="/login" />;
+  if (user) return <Redirect to="/login" noThrow />;
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-one-third">
-        <div className="box">
-          <header className="title is-1">Registration</header>
-          <form onSubmit={register}>
-            <div className="field">
-              <label className="label">Username</label>
-              <div className="control">
-                <input
-                  className="input"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Email</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Password</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Confirm Password</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="password"
-                  value={password1}
-                  onChange={(e) => setPassword1(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <label className="radio">
-                  <input
-                    type="radio"
-                    name="chooseCard"
-                    checked={useExistingCard}
-                    onChange={() => setUseExistingCard(true)}
-                  />
-                  &nbsp;I already have a Breeze Card
-                </label>
-              </div>
-              <div className="control">
-                <input
-                  className="input"
-                  disabled={!useExistingCard}
-                  placeholder="Card Number"
-                  value={breezecardNum}
-                  onChange={(e) => setBreezecardNum(e.target.value)}
-                />
-              </div>
-              <div className="control">
-                <label className="radio">
-                  <input
-                    type="radio"
-                    name="chooseCard"
-                    checked={!useExistingCard}
-                    onChange={() => setUseExistingCard(false)}
-                  />
-                  &nbsp;Get a new Breeze Card
-                </label>
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <button className="button is-link">Register</button>
-              </div>
-            </div>
-          </form>
-        </div>
+    <Container>
+      <div className="box">
+        <header className="title is-1">Registration</header>
+        <form onSubmit={register}>
+          <Input value={username} onChange={(e) => setUsername(e.target.value)}>
+            Username
+          </Input>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          >
+            Email
+          </Input>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          >
+            Password
+          </Input>
+          <Input
+            type="password"
+            value={password1}
+            onChange={(e) => setPassword1(e.target.value)}
+          >
+            Confirm Password
+          </Input>
+
+          <Radio label="Please choose one:">
+            <Option
+              checked={useExistingCard}
+              onChange={() => setUseExistingCard(true)}
+            >
+              I already have a Breeze Card
+            </Option>
+            <Option
+              checked={!useExistingCard}
+              onChange={() => setUseExistingCard(false)}
+            >
+              Get a new card
+            </Option>
+          </Radio>
+
+          <Input
+            disabled={!useExistingCard}
+            value={breezecardNum}
+            onChange={(e) => setBreezecardNum(e.target.value)}
+          />
+
+          <Button submit isLink>
+            Register
+          </Button>
+        </form>
       </div>
-    </div>
+    </Container>
   );
 };
 

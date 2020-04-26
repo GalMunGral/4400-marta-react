@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect } from "@reach/router";
 import axios from "axios";
-import Table from "../../components/Table";
+import Table from "../../components/common/Table";
 import { UserContext } from "../../contexts";
+import Container from "../../components/common/Container";
+import Button from "../../components/common/Button";
 
 const SuspendedCards = () => {
   const [user] = useContext(UserContext);
@@ -34,43 +36,30 @@ const SuspendedCards = () => {
     { name: "BelongsTo", displayName: "Previous Owner" },
   ];
 
-  if (!user) return <Redirect to="/login" />;
+  if (!user) return <Redirect to="/login" noThrow />;
 
   return (
-    <div className="columns is-centered">
-      <div className="colums is-one-third">
-        <div className="box">
-          <header className="title is-1">Suspended Cards</header>
-          <Table
-            columns={columns}
-            data={cards}
-            keyFn={(c) => c.BreezecardNum + c.Username}
-            selected={selected}
-            selectFn={setSelected}
-          />
-          <div className="field">
-            <div className="control">
-              <button
-                className="button is-danger is-light"
-                onClick={() => assign(true)}
-              >
-                Assign Selected Card to New Owner
-              </button>
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <button
-                className="button is-link is-light"
-                onClick={() => assign(false)}
-              >
-                Assign Selected Card to Previous Owner
-              </button>
-            </div>
-          </div>
-        </div>
+    <Container isWide>
+      <div className="box">
+        <header className="title is-1">Suspended Cards</header>
+
+        <Table
+          columns={columns}
+          data={cards}
+          keyFn={(c) => c.BreezecardNum + c.Username}
+          selected={selected}
+          selectFn={setSelected}
+        />
+
+        <Button isDanger isLight onClick={() => assign(true)}>
+          Assign Selected Card to New Owner
+        </Button>
+
+        <Button isLink isLight onClick={() => assign(false)}>
+          Assign Selected Card to Previous Owner
+        </Button>
       </div>
-    </div>
+    </Container>
   );
 };
 

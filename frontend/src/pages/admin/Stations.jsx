@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect } from "@reach/router";
 import axios from "axios";
-import Table from "../../components/Table";
+import Table from "../../components/common/Table";
 import { UserContext } from "../../contexts";
-import StationDetail from "../../components/StationDetail";
+import StationDetail from "../../components/admin/StationDetail";
+import Container from "../../components/common/Container";
+import Button from "../../components/common/Button";
 
 const Stations = () => {
   const [user] = useContext(UserContext);
@@ -19,7 +21,7 @@ const Stations = () => {
     setStations(data);
   };
 
-  const initStation = () => {
+  const createStation = () => {
     setSelected({
       isNew: true,
       StopID: "",
@@ -31,40 +33,36 @@ const Stations = () => {
     });
   };
 
-  const columns = [
-    { name: "Name", displayName: "Station Name" },
-    { name: "StopID", displayName: "Station ID" },
-    { name: "EnterFare", displayName: "Fare" },
-    { name: "ClosedStatus", displayName: "Status" },
-  ];
-
-  if (!user) return <Redirect to="/login" />;
+  if (!user) return <Redirect to="/login" noThrow />;
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-half">
-        <header className="title is-1">All Stations</header>
-        <button
-          className="button is-link is-light is-pulled-right"
-          onClick={initStation}
-        >
-          Create New Station
-        </button>
-        <Table
-          columns={columns}
-          data={stations}
-          keyFn={(s) => s.StopID}
-          selectFn={(s) => setSelected(s)}
+    <Container isWide>
+      <header className="title is-1">All Stations</header>
+
+      <Button isLink isLight onClick={createStation}>
+        Create New Station
+      </Button>
+
+      <Table
+        columns={[
+          { name: "Name", displayName: "Station Name" },
+          { name: "StopID", displayName: "Station ID" },
+          { name: "EnterFare", displayName: "Fare" },
+          { name: "ClosedStatus", displayName: "Status" },
+        ]}
+        data={stations}
+        keyFn={(s) => s.StopID}
+        selectFn={(s) => setSelected(s)}
+      />
+
+      {selected ? (
+        <StationDetail
+          selected={selected}
+          setSelected={setSelected}
+          loadStations={loadStations}
         />
-        {selected ? (
-          <StationDetail
-            selected={selected}
-            setSelected={setSelected}
-            loadStations={loadStations}
-          />
-        ) : null}
-      </div>
-    </div>
+      ) : null}
+    </Container>
   );
 };
 

@@ -1,13 +1,19 @@
 import React, { useState, useContext } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useNavigate } from "@reach/router";
 import axios from "axios";
 import { UserContext } from "../../contexts";
+import Container from "../../components/common/Container";
+import Input from "../../components/common/Input";
+import {
+  GroupedFormField,
+  GroupedButton,
+} from "../../components/common/GroupedFormField";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const login = async (e) => {
     e.preventDefault();
@@ -27,56 +33,41 @@ const Login = () => {
   if (user) {
     const landingPage =
       user.userType === "ADMIN" ? "/admin-dashboard" : "/my-trip";
-    return <Redirect to={landingPage} />;
+    return <Redirect to={landingPage} noThrow />;
   }
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-one-third">
-        <div className="box">
-          <header className="title is-1">Login</header>
-          <form onSubmit={login}>
-            <div className="field">
-              <label className="label">Username</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Password</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="field is-grouped">
-              <div className="control">
-                <button className="button is-link">Login</button>
-              </div>
-              <div className="control">
-                <button
-                  className="button"
-                  type="button"
-                  onClick={() => history.push("/registration")}
-                >
-                  Register
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+    <Container>
+      <div className="box">
+        <header className="title is-1">Login</header>
+        <form onSubmit={login}>
+          <Input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          >
+            Username
+          </Input>
+
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          >
+            Password
+          </Input>
+
+          <GroupedFormField>
+            <GroupedButton submit isLink>
+              Login
+            </GroupedButton>
+            <GroupedButton onClick={() => navigate("/registration")}>
+              Register
+            </GroupedButton>
+          </GroupedFormField>
+        </form>
       </div>
-    </div>
+    </Container>
   );
 };
 export default Login;

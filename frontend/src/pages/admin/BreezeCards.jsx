@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect } from "@reach/router";
 import axios from "axios";
 import { debounce } from "lodash";
-import Table from "../../components/Table";
-import CardDetail from "../../components/CardDetail";
+import Table from "../../components/common/Table";
+import CardDetail from "../../components/admin/CardDetail";
 import useFilter from "../../hooks/BreezeCardFilter";
 import { UserContext } from "../../contexts";
+import Container from "../../components/common/Container";
 
 // This must live outside `BreezeCards` so that it could be updated by later invocations.
 let filterParams = {};
@@ -15,7 +16,10 @@ const BreezeCards = () => {
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  const [filter, { username, breezecardNum, minValue, maxValue }] = useFilter();
+  const [
+    breezecardFilter,
+    { username, breezecardNum, minValue, maxValue },
+  ] = useFilter();
   filterParams = { username, breezecardNum, minValue, maxValue };
 
   const fetchCards = useCallback(
@@ -40,27 +44,25 @@ const BreezeCards = () => {
     }
   }, [cards]);
 
-  const columns = [
-    { name: "BreezecardNum", displayName: "Card Number" },
-    { name: "Value", displayName: "Value" },
-    { name: "BelongsTo", displayName: "Username" },
-  ];
-
-  if (!user) return <Redirect to="/login" />;
+  if (!user) return <Redirect to="/login" noThrow />;
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-half">
-        <header className="title is-1">Manage Breeze Cards</header>
-        {filter}
-        <Table
-          columns={columns}
-          data={cards}
-          keyFn={(c) => c.BreezecardNum}
-          selected={selected}
-          selectFn={setSelected}
-        />
-      </div>
+    <Container isWide>
+      <header className="title is-1">Manage Breeze Cards</header>
+
+      {breezecardFilter}
+
+      <Table
+        columns={[
+          { name: "BreezecardNum", displayName: "Card Number" },
+          { name: "Value", displayName: "Value" },
+          { name: "BelongsTo", displayName: "Username" },
+        ]}
+        data={cards}
+        keyFn={(c) => c.BreezecardNum}
+        selected={selected}
+        selectFn={setSelected}
+      />
 
       {selected ? (
         <CardDetail
@@ -69,7 +71,7 @@ const BreezeCards = () => {
           fetchCards={fetchCards}
         />
       ) : null}
-    </div>
+    </Container>
   );
 };
 

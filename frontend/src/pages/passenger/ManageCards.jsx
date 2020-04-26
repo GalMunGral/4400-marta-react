@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect } from "@reach/router";
 import axios from "axios";
-import Table from "../../components/Table";
+import Table from "../../components/common/Table";
 import { UserContext } from "../../contexts";
 
 const ManageCards = () => {
@@ -79,7 +79,7 @@ const ManageCards = () => {
     }
   };
 
-  if (!user) return <Redirect to="/login" />;
+  if (!user) return <Redirect to="/login" noThrow />;
 
   return (
     <div className="columns is-centered">
