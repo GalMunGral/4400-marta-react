@@ -28,18 +28,23 @@ const NavBarMenu = () => {
       return (
         <div className="navbar-menu">
           <div className="navbar-start">
-            <Link className="navbar-item" to="/my-trip">
-              Start a New Trip
+            <Link className="navbar-item" to="/stations">
+              All Stations
             </Link>
-            <Link className="navbar-item" to="/trip-history">
-              View Trip History
+            <Link className="navbar-item" to="/suspended-cards">
+              Suspended Cards
             </Link>
-            <Link className="navbar-item" to="/my-cards">
-              Manage Cards
+            <Link className="navbar-item" to="/breeze-cards">
+              All Breeze Cards
+            </Link>
+            <Link className="navbar-item" to="/passenger-flow">
+              Flow Report
             </Link>
           </div>
         </div>
       );
+    default:
+      return null;
   }
 };
 

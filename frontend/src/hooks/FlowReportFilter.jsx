@@ -5,6 +5,8 @@ import {
   GroupedInput,
   GroupedButton,
 } from "../components/common/GroupedFormField";
+import Form from "../components/common/Form";
+import Card from "../components/common/Card";
 
 const useFilter = () => {
   const [startTime, setStartTime] = useState(new Date(0));
@@ -16,30 +18,32 @@ const useFilter = () => {
   };
 
   const filterElement = (
-    <form className="box" onReset={resetFilter}>
-      <GroupedFormField>
-        <GroupedInput
-          type="datetime-local"
-          onChange={(e) => setStartTime(new Date(e.target.value))}
-          value={getDOMTimeString(startTime)}
-        >
-          Start
-        </GroupedInput>
-        <GroupedInput
-          type="datetime-local"
-          onChange={(e) => setEndTime(new Date(e.target.value))}
-          value={getDOMTimeString(endTime)}
-        >
-          End
-        </GroupedInput>
-        <GroupedButton reset isLink isSmall>
-          Reset
-        </GroupedButton>
-      </GroupedFormField>
-    </form>
+    <Card sticky>
+      <Form onReset={resetFilter}>
+        <GroupedFormField>
+          <GroupedInput
+            type="datetime-local"
+            onChange={(v) => setStartTime(new Date(v))}
+            value={getDOMTimeString(startTime)}
+          >
+            Start
+          </GroupedInput>
+          <GroupedInput
+            type="datetime-local"
+            onChange={(v) => setEndTime(new Date(v))}
+            value={getDOMTimeString(endTime)}
+          >
+            End
+          </GroupedInput>
+          <GroupedButton reset isLink isSmall>
+            Reset
+          </GroupedButton>
+        </GroupedFormField>
+      </Form>
+    </Card>
   );
 
-  return [filterElement, { startTime, setStartTime, endTime, setEndTime }];
+  return [filterElement, { startTime, endTime, setStartTime, setEndTime }];
 };
 
 export default useFilter;

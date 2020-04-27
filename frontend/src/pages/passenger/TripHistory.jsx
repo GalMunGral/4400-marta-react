@@ -1,89 +1,112 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "@reach/router";
 import axios from "axios";
-import Table from "../../components/common/Table";
+import { Table, Column } from "../../components/common/Table";
 import { UserContext } from "../../contexts";
 import { getDOMTimeString, getSQLTimeString } from "../../utilities";
+import Container from "../../components/common/Container";
+import Header from "../../components/common/Header";
+import Form from "../../components/common/Form";
+import Card from "../../components/common/Card";
+import {
+  GroupedFormField as Field,
+  GroupedButton as Button,
+  GroupedInput as Input,
+} from "../../components/common/GroupedFormField";
+import useNotification from "../../hooks/Notification";
 
 const TripHistory = () => {
   const [user] = useContext(UserContext);
   const [tripHistory, setTripHistory] = useState([]);
   const [startTime, setStartTime] = useState(new Date(0));
   const [endTime, setEndTime] = useState(new Date());
+  const notify = useNotification();
 
-  const fetchData = async () => {
+  const source = axios.CancelToken.source();
+
+  const fetchTripHistory = async () => {
     if (!user) return;
-    const { data } = await axios.get("/api/passenger/trip-history", {
-      params: {
-        username: user.username,
-        start: getSQLTimeString(startTime),
-        end: getSQLTimeString(endTime),
-        order: "DESC",
-      },
-    });
-    const history = data.map((t) => ({
-      ...t,
-      Time: getSQLTimeString(new Date(t.Time)),
-    }));
-    setTripHistory(history);
+    try {
+      const { data } = await axios.get("/api/passenger/trip-history", {
+        params: {
+          username: user.username,
+          start: getSQLTimeString(startTime),
+          end: getSQLTimeString(endTime),
+          order: "DESC",
+        },
+        cancelToken: source.token,
+      });
+      const history = data.map((t) => ({
+        ...t,
+        Time: getSQLTimeString(new Date(t.Time)),
+      }));
+      setTripHistory(history);
+    } catch (error) {
+      notify("ERROR", "Failed to load trip history");
+    }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [startTime, endTime]);
+  useEffect(() => () => source.cancel(), []);
 
-  const columns = [
-    { name: "Time", displayName: "Time" },
-    { name: "SName", displayName: "Source" },
-    { name: "DName", displayName: "Destination" },
-    { name: "Fare", displayName: "Fare Paid" },
-    { name: "BNumber", displayName: "Card#" },
-  ];
+  useEffect(() => {
+    fetchTripHistory();
+  }, [startTime, endTime]);
 
   if (!user) return <Redirect to="/login" noThrow />;
 
   return (
-    <div className="columns is-centered">
-      <div className="column is-two-thirds">
-        <header className="title is-1">Trip History</header>
-        <form className="box">
-          <div className="field is-grouped">
-            <label className="label">Start Time: &nbsp;</label>
-            <div className="control">
-              <input
-                className="input is-small"
+    <Container wide>
+      <Card>
+        <Header>Trip History</Header>
+
+        <Card sticky>
+          <Form>
+            <Field>
+              <Input
                 type="datetime-local"
-                onChange={(e) => setStartTime(new Date(e.target.value))}
+                onChange={(v) => setStartTime(new Date(v))}
                 value={getDOMTimeString(startTime)}
-              />
-            </div>
-            <label className="label">End Time: &nbsp;</label>
-            <div className="control">
-              <input
-                className="input is-small"
+              >
+                Start Time
+              </Input>
+              <Input
                 type="datetime-local"
-                onChange={(e) => setEndTime(new Date(e.target.value))}
+                onChange={(v) => setEndTime(new Date(v))}
                 value={getDOMTimeString(endTime)}
-              />
-            </div>
-            <div className="control">
-              <button
-                className="button is-link is-small"
-                type="button"
+              >
+                End Time
+              </Input>
+              <Button
+                isLink
+                isSmall
                 onClick={() => {
                   setStartTime(new Date(0));
                   setEndTime(new Date());
                 }}
               >
                 Reset
-              </button>
-            </div>
-          </div>
-        </form>
+              </Button>
+            </Field>
+          </Form>
+        </Card>
 
-        <Table columns={columns} data={tripHistory} keyFn={(t) => t.Time} />
-      </div>
-    </div>
+        <Table data={tripHistory} keyFn={(t) => t.Time}>
+          <Column keyName="Time" format="time">
+            Time
+          </Column>
+          <Column keyName="SName" format="long">
+            Source
+          </Column>
+          <Column keyName="DName" format="long">
+            Destination
+          </Column>
+          <Column keyName="Fare" format="currency">
+            Fare Paid
+          </Column>
+          <Column keyName="BNumber">Card #</Column>
+        </Table>
+      </Card>
+    </Container>
   );
 };
 

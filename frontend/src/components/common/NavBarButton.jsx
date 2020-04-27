@@ -14,6 +14,8 @@ const NavBarButton = () => {
           type="button"
           onClick={() => {
             setUser(null);
+            localStorage.removeItem("userType");
+            localStorage.removeItem("username");
             navigate("/login");
           }}
         >

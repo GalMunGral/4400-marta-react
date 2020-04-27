@@ -4,6 +4,8 @@ import {
   GroupedButton,
   GroupedFormField,
 } from "../components/common/GroupedFormField";
+import Card from "../components/common/Card";
+import Form from "../components/common/Form";
 
 const useFilter = () => {
   const [username, setUsername] = useState("");
@@ -19,45 +21,33 @@ const useFilter = () => {
   };
 
   const filterElement = (
-    <form className="box">
-      <GroupedFormField>
-        <GroupedInput
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        >
-          Owner
-        </GroupedInput>
-      </GroupedFormField>
+    <Card sticky>
+      <Form onReset={resetFilter}>
+        <GroupedFormField>
+          <GroupedInput value={username} onChange={setUsername}>
+            Owner
+          </GroupedInput>
+        </GroupedFormField>
 
-      <GroupedFormField>
-        <GroupedInput
-          value={breezecardNum}
-          onChange={(e) => setbreezecardNum(e.target.value)}
-        >
-          Card Number
-        </GroupedInput>
-      </GroupedFormField>
+        <GroupedFormField>
+          <GroupedInput value={breezecardNum} onChange={setbreezecardNum}>
+            Card #
+          </GroupedInput>
+        </GroupedFormField>
 
-      <GroupedFormField>
-        <GroupedInput
-          type="number"
-          value={minValue}
-          onChange={(e) => setMinValue(e.target.value)}
-        >
-          Value between
-        </GroupedInput>
-        <GroupedInput
-          type="number"
-          value={maxValue}
-          onChange={(e) => setMaxValue(e.target.value)}
-        >
-          and
-        </GroupedInput>
-        <GroupedButton isLink onClick={resetFilter} isSmall>
-          Reset
-        </GroupedButton>
-      </GroupedFormField>
-    </form>
+        <GroupedFormField>
+          <GroupedInput type="number" value={minValue} onChange={setMinValue}>
+            Value between
+          </GroupedInput>
+          <GroupedInput type="number" value={maxValue} onChange={setMaxValue}>
+            and
+          </GroupedInput>
+          <GroupedButton reset isLink isSmall>
+            Reset
+          </GroupedButton>
+        </GroupedFormField>
+      </Form>
+    </Card>
   );
 
   return [filterElement, { username, breezecardNum, minValue, maxValue }];

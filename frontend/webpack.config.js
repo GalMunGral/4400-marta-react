@@ -28,7 +28,7 @@ module.exports = (env) => {
           use: ["style-loader", "css-loader"],
         },
         {
-          test: /\.svg$/,
+          test: /\.(svg|jpg)$/,
           use: {
             loader: "url-loader",
             options: {

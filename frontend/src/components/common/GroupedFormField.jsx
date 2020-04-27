@@ -18,7 +18,7 @@ export const GroupedInput = ({
         className="input is-small"
         type={type || "text"}
         value={value || ""}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
       />
     </div>

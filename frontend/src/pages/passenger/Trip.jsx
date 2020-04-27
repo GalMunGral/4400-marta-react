@@ -1,9 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "@reach/router";
 import axios from "axios";
-import Select from "../../components/common/Select";
+import { Select, Option, Label } from "../../components/common/Select";
+import Card from "../../components/common/Card";
 import { UserContext } from "../../contexts";
 import Container from "../../components/common/Container";
+import Header from "../../components/common/Header";
+import Form from "../../components/common/Form";
+import { Text, Format } from "../../components/common/Text";
+import Button from "../../components/common/Button";
+import useNotification from "../../hooks/Notification";
 
 const Trip = () => {
   const [user] = useContext(UserContext);
@@ -13,7 +19,72 @@ const Trip = () => {
   const [startStation, setStartStation] = useState(null);
   const [endStation, setEndStation] = useState(null);
   const [startTime, setStartTime] = useState(false);
+  const notify = useNotification();
 
+  const source = axios.CancelToken.source();
+
+  const loadCards = async () => {
+    if (!user) return;
+    try {
+      const { data } = await axios.get("/api/passenger/my-cards", {
+        params: { user: user.username },
+        cancelToken: source.token,
+      });
+      setCards(data);
+    } catch (error) {
+      notify("ERORR", "Failed to load cards");
+    }
+  };
+
+  const loadStations = async () => {
+    if (!user) return;
+    try {
+      const { data } = await axios.get("/api/stations", {
+        cancelToken: source.token,
+      });
+      setStations(data);
+    } catch {
+      notify("ERROR", "Failed to load stations");
+    }
+  };
+
+  const startTrip = () => {
+    if (+card.Value >= +startStation.EnterFare) {
+      setStartTime(new Date());
+      notify("INFO", "Trip started!");
+    } else {
+      notify("ERROR", "Insufficient funds");
+    }
+  };
+
+  const endTrip = async () => {
+    try {
+      await axios.post(
+        "/api/passenger/complete-trip",
+        {
+          breezecardNum: card.BreezecardNum,
+          currentFare: startStation.EnterFare,
+          startTime: startTime
+            .toISOString()
+            .replace("T", " ")
+            .replace(/\..*$/, ""),
+          startID: startStation.StopID,
+          endID: endStation.StopID,
+        },
+        { cancelToken: source.token }
+      );
+      setStartStation(endStation);
+      setStartTime(null);
+      notify("INFO", "Trip completed. Thanks for choosing MARTA!");
+    } catch (error) {
+      console.log(error);
+      notify("ERORR", "Failed to end trip");
+    }
+  };
+
+  useEffect(() => () => source.cancel(), []);
+
+  // Needs to update card balance when trip ends, i.e. when `startTime` is reset
   useEffect(() => {
     loadCards();
     loadStations();
@@ -25,124 +96,62 @@ const Trip = () => {
     }
   }, [cards]);
 
-  const loadCards = async () => {
-    if (!user) return;
-    const { data } = await axios.get("/api/passenger/my-cards", {
-      params: { user: user.username },
-    });
-    setCards(data);
-  };
-
-  const loadStations = async () => {
-    if (!user) return;
-    const { data } = await axios.get("/api/stations");
-    setStations(data);
-  };
-
-  const startTrip = () => {
-    if (+card.Value >= +startStation.EnterFare) {
-      setStartTime(new Date());
-    } else {
-      alert("Insufficient funds");
-    }
-  };
-
-  const endTrip = async () => {
-    await axios.post("/api/passenger/complete-trip", {
-      breezecardNum: card.BreezecardNum,
-      currentFare: startStation.EnterFare,
-      startTime: startTime.toISOString().replace("T", " ").replace(/\..*$/, ""),
-      startID: startStation.StopID,
-      endID: endStation.StopID,
-    });
-    setStartTime(null);
-  };
-
   if (!user) return <Redirect to="/login" noThrow />;
 
   return (
     <Container>
-      <div className="box">
-        <header className="title is-1">New Trip</header>
+      <Card>
+        <Header>New Trip</Header>
 
-        <form>
-          <Select
-            label={"Breeze Card"}
-            onChange={(e) =>
-              setCard(cards.find((c) => c.BreezecardNum === e.target.value))
-            }
-            value={card?.BreezecardNum}
-            options={cards}
-            keyFn={(c) => c.BreezecardNum}
-            toString={(c) => String(c.BreezecardNum)}
-            disabled={!!startTime}
-          />
+        <Form>
+          <Select value={card} disabled={!!startTime} onChange={setCard}>
+            <Label>Breeze Card</Label>
+            <Option forEach={cards} keyFn={(c) => c.BreezecardNum}>
+              {(c) => c.BreezecardNum}
+            </Option>
+          </Select>
 
-          <p className="has-text-primary is-italic has-text-weight-bold">
-            Balance: ${(+card?.Value || 0).toFixed(2)}
-          </p>
+          <Text>
+            Balance: <Format type="currency">{card?.Value}</Format>
+          </Text>
 
           <Select
-            label={"Start At"}
-            onChange={(e) =>
-              setStartStation(stations.find((s) => s.StopID === e.target.value))
-            }
-            value={startStation?.StopID}
-            keyFn={(s) => s.StopID}
-            options={stations}
-            toString={(s) => s.Name}
+            onChange={setStartStation}
+            value={startStation}
             disabled={!!startTime}
-          />
+          >
+            <Label>Start At</Label>
+            <Option forEach={stations} keyFn={(s) => s.StopID}>
+              {(s) => s.Name}
+            </Option>
+          </Select>
+
           {card && !startTime ? (
-            <div className="field">
-              <div className="control">
-                <button
-                  className="button is-danger"
-                  type="button"
-                  onClick={startTrip}
-                >
-                  Start Trip
-                </button>
-              </div>
-            </div>
+            <Button isDanger onClick={startTrip}>
+              Start Trip
+            </Button>
           ) : null}
 
           {startTime ? (
-            <section>
+            <>
               <Select
-                label={"End At"}
-                onChange={(e) =>
-                  setEndStation(
-                    stations.find((s) => s.StopID === e.target.value)
-                  )
-                }
-                value={endStation?.StopID}
-                keyFn={(s) => s.StopID}
-                options={stations}
-                toString={(s) => s.Name}
+                onChange={setEndStation}
+                value={endStation}
                 disabled={!startTime}
-              />
-              <div className="field">
-                <div className="control">
-                  <button
-                    className="button is-danger"
-                    type="button"
-                    disabled={!startTime}
-                    onClick={endTrip}
-                  >
-                    End Trip
-                  </button>
-                </div>
-              </div>
-            </section>
-          ) : null}
+              >
+                <Label>End At</Label>
+                <Option forEach={stations} keyFn={(s) => s.StopID}>
+                  {(s) => s.Name}
+                </Option>
+              </Select>
 
-          <div
-            className="field is-grouped is-grouped-right"
-            style={{ marginTop: "2rem" }}
-          ></div>
-        </form>
-      </div>
+              <Button isDanger disabled={!startTime} onClick={endTrip}>
+                End Trip
+              </Button>
+            </>
+          ) : null}
+        </Form>
+      </Card>
     </Container>
   );
 };

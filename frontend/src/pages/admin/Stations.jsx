@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "@reach/router";
 import axios from "axios";
-import Table from "../../components/common/Table";
+import Table, { Column } from "../../components/common/Table";
 import { UserContext } from "../../contexts";
 import StationDetail from "../../components/admin/StationDetail";
 import Container from "../../components/common/Container";
+import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
+import Header from "../../components/common/Header";
+import useNotification from "../../hooks/Notification";
 
 const Stations = () => {
   const [user] = useContext(UserContext);
   const [stations, setStations] = useState([]);
   const [selected, setSelected] = useState(null);
-
-  useEffect(() => {
-    loadStations();
-  }, []);
-
-  const loadStations = async () => {
-    const { data } = await axios.get("/api/stations");
-    setStations(data);
-  };
+  const notify = useNotification();
 
   const createStation = () => {
     setSelected({
@@ -33,35 +28,56 @@ const Stations = () => {
     });
   };
 
+  const source = axios.CancelToken.source();
+
+  const loadStations = async () => {
+    try {
+      const { data } = await axios.get("/api/stations", {
+        cancelToken: source.token,
+      });
+      setStations(data);
+    } catch (error) {
+      notify("ERROR", "Failed to fetch stations");
+    }
+  };
+
+  useEffect(() => {
+    loadStations();
+    return () => source.cancel();
+  }, []);
+
   if (!user) return <Redirect to="/login" noThrow />;
 
   return (
-    <Container isWide>
-      <header className="title is-1">All Stations</header>
+    <Container medium>
+      <Card>
+        <Header>All Stations</Header>
+        <Button isLink isLight onClick={createStation}>
+          Create New Station
+        </Button>
 
-      <Button isLink isLight onClick={createStation}>
-        Create New Station
-      </Button>
-
-      <Table
-        columns={[
-          { name: "Name", displayName: "Station Name" },
-          { name: "StopID", displayName: "Station ID" },
-          { name: "EnterFare", displayName: "Fare" },
-          { name: "ClosedStatus", displayName: "Status" },
-        ]}
-        data={stations}
-        keyFn={(s) => s.StopID}
-        selectFn={(s) => setSelected(s)}
-      />
-
-      {selected ? (
-        <StationDetail
+        <Table
+          data={stations}
+          keyFn={(s) => s.StopID}
           selected={selected}
-          setSelected={setSelected}
-          loadStations={loadStations}
-        />
-      ) : null}
+          selectFn={setSelected}
+        >
+          <Column keyName="StopID">Station ID</Column>
+          <Column keyName="Name" format="long">
+            Station Name
+          </Column>
+          <Column keyName="EnterFare" format="currency">
+            Fare
+          </Column>
+          <Column keyName="ClosedStatus" format="bool">
+            Closed
+          </Column>
+        </Table>
+
+        {selected ? (
+          <StationDetail {...{ selected, setSelected, loadStations }} />
+        ) : null}
+      </Card>
     </Container>
   );
 };

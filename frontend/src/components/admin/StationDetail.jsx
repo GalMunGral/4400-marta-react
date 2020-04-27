@@ -5,6 +5,8 @@ import Button from "../common/Button";
 import Checkbox from "../common/Checkbox";
 import { Radio, Option } from "../common/Radio";
 import Modal from "../common/Modal";
+import Form from "../common/Form";
+import useNotification from "../../hooks/Notification";
 
 const StationDetail = ({ selected: station, setSelected, loadStations }) => {
   const [stopID, setStopID] = useState(station.StopID);
@@ -13,6 +15,51 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
   const [isTrain, setIsTrain] = useState(station.IsTrain);
   const [intersection, setIntersection] = useState(station.Intersection);
   const [closedStatus, setClosedStatus] = useState(station.ClosedStatus);
+  const notify = useNotification();
+
+  const source = axios.CancelToken.source();
+
+  const updateFare = async () => {
+    try {
+      await axios.post(
+        "/api/admin/update-fare",
+        {
+          enterFare,
+          stopID,
+        },
+        { cancelToken: source.token }
+      );
+      await loadStations();
+      setSelected(null);
+      notify("INFO", "Success!");
+    } catch {
+      notify("ERROR", "Failed to update fare");
+    }
+  };
+
+  const createStation = async () => {
+    try {
+      await axios.post(
+        "/api/admin/create-station",
+        {
+          stopID,
+          name,
+          enterFare,
+          isTrain,
+          intersection,
+          closedStatus,
+        },
+        { cancelToken: source.token }
+      );
+      setSelected(null);
+      await loadStations();
+      notify("INFO", "Success!");
+    } catch {
+      notify("ERROR", "Failed to create station");
+    }
+  };
+
+  useEffect(() => () => source.cancel(), []);
 
   useEffect(() => {
     setStopID(station.StopID);
@@ -23,35 +70,14 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
     setClosedStatus(station.ClosedStatus);
   }, [station]);
 
-  const updateFare = async () => {
-    await axios.post("/api/admin/update-fare", {
-      enterFare,
-      stopID,
-    });
-    await loadStations();
-  };
-
-  const createStation = async (e) => {
-    e.preventDefault();
-    await axios.post("/api/admin/create-station", {
-      stopID,
-      name,
-      enterFare,
-      isTrain,
-      intersection,
-      closedStatus,
-    });
-    setSelected(null);
-    await loadStations();
-  };
-
   return (
     <Modal mount="#modal" closeFn={() => setSelected(null)}>
-      <form onSubmit={(e) => createStation(e)}>
+      <Form onSubmit={createStation}>
         <Input
           value={name}
           disabled={!station.isNew}
-          onChange={(e) => setName(e.target.value)}
+          onChange={setName}
+          required
         >
           Station Name
         </Input>
@@ -59,7 +85,8 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
         <Input
           value={stopID}
           disabled={!station.isNew}
-          onChange={(e) => setStopID(e.target.value)}
+          onChange={setStopID}
+          required
         >
           ID
         </Input>
@@ -67,7 +94,8 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
         <Input
           type="number"
           value={enterFare}
-          onChange={(e) => setEnterFare(Math.max(0, e.target.value))}
+          onChange={(v) => setEnterFare(Math.max(0, v))}
+          required
         >
           Fare
         </Input>
@@ -78,19 +106,19 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
           </Button>
         ) : null}
 
-        <Radio label="Station Type" disabled={!station.isNew}>
+        <Radio label="Station Type" disabled={!station.isNew} required>
           <Option checked={isTrain} onChange={() => setIsTrain(1)}>
             Train
           </Option>
           <Option checked={!isTrain} onChange={() => setIsTrain(0)}>
-            Buts
+            Bus
           </Option>
         </Radio>
 
         <Input
           value={intersection}
           disabled={!station.isNew || isTrain}
-          onChange={(e) => setIntersection(e.target.value)}
+          onChange={setIntersection}
         >
           Nearest Intersection
         </Input>
@@ -98,7 +126,8 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
         <Checkbox
           checked={!closedStatus}
           disabled={!station.isNew}
-          onChange={(e) => setClosedStatus(e.target.checked ? 0 : 1)}
+          onChange={(v) => setClosedStatus(v ? 0 : 1)}
+          required
         >
           Open (Passengers can enter at this station)
         </Checkbox>
@@ -108,7 +137,7 @@ const StationDetail = ({ selected: station, setSelected, loadStations }) => {
             Confirm
           </Button>
         ) : null}
-      </form>
+      </Form>
     </Modal>
   );
 };
