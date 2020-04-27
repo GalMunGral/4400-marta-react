@@ -19,7 +19,7 @@ const NavBarButton = () => {
             navigate("/login");
           }}
         >
-          Logout
+          Log Out
         </button>
       </div>
     </div>

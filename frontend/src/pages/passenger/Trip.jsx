@@ -32,7 +32,7 @@ const Trip = () => {
       });
       setCards(data);
     } catch (error) {
-      notify("ERORR", "Failed to load cards");
+      notify("ERROR", "Failed to load cards");
     }
   };
 
@@ -78,7 +78,7 @@ const Trip = () => {
       notify("INFO", "Trip completed. Thanks for choosing MARTA!");
     } catch (error) {
       console.log(error);
-      notify("ERORR", "Failed to end trip");
+      notify("ERROR", "Failed to end trip");
     }
   };
 
@@ -105,7 +105,7 @@ const Trip = () => {
 
         <Form>
           <Select value={card} disabled={!!startTime} onChange={setCard}>
-            <Label>Breeze Card</Label>
+            <Label>Select Breeze card</Label>
             <Option forEach={cards} keyFn={(c) => c.BreezecardNum}>
               {(c) => c.BreezecardNum}
             </Option>
@@ -120,7 +120,7 @@ const Trip = () => {
             value={startStation}
             disabled={!!startTime}
           >
-            <Label>Start At</Label>
+            <Label>I'm currently at</Label>
             <Option forEach={stations} keyFn={(s) => s.StopID}>
               {(s) => s.Name}
             </Option>
@@ -139,7 +139,7 @@ const Trip = () => {
                 value={endStation}
                 disabled={!startTime}
               >
-                <Label>End At</Label>
+                <Label>I'm going to</Label>
                 <Option forEach={stations} keyFn={(s) => s.StopID}>
                   {(s) => s.Name}
                 </Option>
